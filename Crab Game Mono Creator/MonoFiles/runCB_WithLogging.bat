@@ -1,0 +1,1 @@
+"Crab Game.exe" > log.txt

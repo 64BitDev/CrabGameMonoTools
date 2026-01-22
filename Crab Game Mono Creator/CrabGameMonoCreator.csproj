@@ -1,0 +1,93 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Crab_Game_Mono_Creator</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  
+<ItemGroup>
+  <Compile Include="..\shared\Utils.cs">
+    <Link>Utils.cs</Link>
+  </Compile>
+</ItemGroup>
+  
+<ItemGroup>
+  <PackageReference Include="Mono.Cecil" Version="0.11.6" />
+</ItemGroup>
+  
+<ItemGroup>
+  <None Update="cgmonomap.jecgm">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\Crab Game.exe">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\EmbedRuntime\mono-2.0-bdwgc.dll">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\EmbedRuntime\MonoPosixHelper.dll">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\2.0\Browsers\Compat.browser">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\2.0\DefaultWsdlHelpGenerator.aspx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\2.0\machine.config">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\2.0\settings.map">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\2.0\web.config">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.0\Browsers\Compat.browser">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.0\DefaultWsdlHelpGenerator.aspx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.0\machine.config">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.0\settings.map">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.0\web.config">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.5\Browsers\Compat.browser">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.5\DefaultWsdlHelpGenerator.aspx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.5\machine.config">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.5\settings.map">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\4.5\web.config">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\MonoBleedingEdge\etc\mono\mconfig\config.xml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\runCB_WithLogging.bat">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\steam_appid.txt">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="MonoFiles\UnityPlayer.dll">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+
+</Project>

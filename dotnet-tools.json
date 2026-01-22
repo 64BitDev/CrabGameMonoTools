@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "referenceassemblygenerator.cli": {
+      "version": "1.0.6",
+      "commands": [
+        "generatereference"
+      ],
+      "rollForward": false
+    }
+  }
+}

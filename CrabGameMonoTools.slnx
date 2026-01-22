@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="3thPartylicenses.md" />
+    <File Path="license.md" />
+    <File Path="readme.md" />
+  </Folder>
+  <Project Path="Crab Game Mono Creator/CrabGameMonoCreator.csproj" Id="9e682670-6993-48ec-9573-86a7f0c776f8" />
+  <Project Path="CrabGameDeopTools/CrabGameDeopTools.csproj" />
+</Solution>
