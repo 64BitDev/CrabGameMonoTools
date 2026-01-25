@@ -18,7 +18,8 @@ namespace CrabGameDeopTools
         {
             Console.WriteLine("Crab Game Assembly Mapping Tools v1.0.0");
             Console.WriteLine("By 64bitdev");
-            switch (ConsoleUtils.SelectOptionFromArray("Tool:", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm"))
+            ConsoleUtils.SetupConsoleUtils();
+            switch (ConsoleUtils.SelectOptionFromArray("Tool:","Tool", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm"))
             {
                 case 1:
                     CreateBasicCrabGameMacMonoToCrabGameWinMono();
@@ -34,9 +35,9 @@ namespace CrabGameDeopTools
         static void CreateBasicCrabGameMacMonoToCrabGameWinMono()
         {
 
-            string CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:");
-            string CrabGameWinPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Win Directory:");
-            string OutputPath = ConsoleUtils.GetSafeStringFromConsole("Output Folder:");
+            string CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:", "CrabGameMacPath");
+            string CrabGameWinPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Win Directory:", "CrabGameWinPath");
+            string OutputPath = ConsoleUtils.GetSafeStringFromConsole("Output Folder:", "OutputPath");
 
             string ga = Path.Combine(CrabGameWinPath, "GameAssembly.dll");
             string meta = Path.Combine(
@@ -178,7 +179,7 @@ namespace CrabGameDeopTools
 
         static void ConvertExtractedCrabGameDeopToAJsonEncodedCrabGameMap()
         {
-            string extractDir = ConsoleUtils.GetSafeStringFromConsole("Extracted Crab Game Map Dir:");
+            string extractDir = ConsoleUtils.GetSafeStringFromConsole("Extracted Crab Game Map Dir:","OutputMapDir");
             string outPath = new DirectoryInfo(extractDir).Name + ".jecgm";
 
             using var JECGMStream = File.Create(outPath);

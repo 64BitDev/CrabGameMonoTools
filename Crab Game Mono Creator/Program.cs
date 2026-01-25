@@ -16,9 +16,11 @@ namespace Crab_Game_Mono_Creator
         {
             Console.WriteLine("=== Crab Game Mono Creator ===");
             Console.WriteLine("Created by 64bitdev");
-            CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:");
-            CrabGameWinPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Win Directory:");
-            OutputPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mono Output Directory:");
+            ConsoleUtils.SetupConsoleUtils();
+            
+            CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:", "CrabGameMacPath");
+            CrabGameWinPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Win Directory:", "CrabGameWinPath");
+            OutputPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mono Output Directory:","OutputPath");
 
             //make sure the stuff we want exists there
             if (!Directory.Exists(OutputPath))

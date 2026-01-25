@@ -1,11 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using Mono.Cecil;
 public static class ConsoleUtils
 {
-    public static int GetSafeIntFromConsole(string Name)
+    static JsonDocument? jsonSettings;
+    public static void SetupConsoleUtils()
     {
+        if(File.Exists("JsonSettings.json"))
+        {
+            jsonSettings = JsonDocument.Parse(File.ReadAllText("JsonSettings.json"));
+        }
+    }
+    public static int GetSafeIntFromConsole(string Name,string guid)
+    {
+        if(jsonSettings is not null)
+        {
+            if(jsonSettings.RootElement.TryGetProperty(guid, out var jsonvalue))
+            {
+                return jsonvalue.GetInt32();
+            }
+        }
+
         string? Input = string.Empty;
         while (true)
         {
@@ -19,8 +36,15 @@ public static class ConsoleUtils
 
     }
 
-    public static string GetSafeStringFromConsole(string Name)
+    public static string GetSafeStringFromConsole(string Name, string guid)
     {
+        if (jsonSettings is not null)
+        {
+            if (jsonSettings.RootElement.TryGetProperty(guid, out var jsonvalue))
+            {
+                return jsonvalue.GetString()!;
+            }
+        }
         string? Input = string.Empty;
         while (true)
         {
@@ -33,14 +57,14 @@ public static class ConsoleUtils
         }
     }
 
-    public static int SelectOptionFromArray(string Name, params string[] Options)
+    public static int SelectOptionFromArray(string Name,string guid, params string[] Options)
     {
         Console.WriteLine($"Select one of the following");
         for (int i = 0; i < Options.Length; i++)
         {
             Console.WriteLine($"{i}. {Options[i]}");
         }
-        return GetSafeIntFromConsole(Name);
+        return GetSafeIntFromConsole(Name,guid);
 
     }
 
