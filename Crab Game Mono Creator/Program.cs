@@ -76,172 +76,179 @@ namespace Crab_Game_Mono_Creator
             //get all of the dlls that this maps
             foreach (var file in Directory.GetFiles(CrabGameMacManagedDir))
             {
-
-                var filename = Path.GetFileName(file);
-                Console.WriteLine($"Trying to patch {filename}.dll");
-                if (filename.StartsWith("Unity") || filename.StartsWith("System") || filename.StartsWith("mscorlib") || filename.StartsWith("Mono"))
-                {
-                    File.Copy(file, Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)), true);
-                    Console.WriteLine($"Skiped file {filename}.dll because it was a system file");
-                    continue;
-                }
-                AssemblyDefinition macAsm = AssemblyDefinition.ReadAssembly(file);
-                foreach (var type in GetAllTypeDefinitions(macAsm.MainModule))
-                {
-                    if (crabgamemap.RootElement.TryGetProperty(macAsm.Name.Name, out var asm))
-                    {
-                        string nsName = string.IsNullOrWhiteSpace(type.Namespace) ? "Global" : type.Namespace;
-
-                        if (asm.TryGetProperty(nsName, out var ns))
-                        {
-                            foreach (var mappedtype in ns.EnumerateObject())
-                            {
-                                string mac = mappedtype.Value.GetProperty("ObjectMaps").GetProperty("Mac").GetString()!;
-
-                                if (mac == type.Name)
-                                {
-                                    string Windows = mappedtype.Value.GetProperty("ObjectMaps").GetProperty("Windows").GetString()!;
-                                    type.Name = Windows;
-                                    break;
-                                }
-                            }
-                        }
-
-
-
-                    }
-                }
-                foreach (var t in GetAllTypeDefinitions(macAsm.MainModule))
-                {
-                    FixExternalRefs(t);
-                }
-
-                void FixExternalRefs(TypeDefinition t)
-                {
-                    FixTypeRef(t.BaseType);
-
-                    foreach (var i in t.Interfaces)
-                        FixTypeRef(i.InterfaceType);
-
-                    foreach (var f in t.Fields)
-                        FixTypeRef(f.FieldType);
-
-                    foreach (var m in t.Methods)
-                    {
-                        FixTypeRef(m.ReturnType);
-
-                        foreach (var p in m.Parameters)
-                            FixTypeRef(p.ParameterType);
-
-                        if (!m.HasBody)
-                            continue;
-
-                        foreach (var v in m.Body.Variables)
-                            FixTypeRef(v.VariableType);
-
-                        foreach (var ins in m.Body.Instructions)
-                        {
-                            switch (ins.Operand)
-                            {
-                                case TypeReference tr:
-                                    FixTypeRef(tr);
-                                    break;
-
-                                case MethodReference mr:
-                                    FixTypeRef(mr.DeclaringType);
-                                    FixTypeRef(mr.ReturnType);
-                                    foreach (var p in mr.Parameters)
-                                        FixTypeRef(p.ParameterType);
-                                    break;
-
-                                case FieldReference fr:
-                                    FixTypeRef(fr.DeclaringType);
-                                    FixTypeRef(fr.FieldType);
-                                    break;
-                            }
-                        }
-                    }
-
-                    foreach (var n in t.NestedTypes)
-                        FixExternalRefs(n);
-                    foreach (var type in GetAllTypeDefinitions(macAsm.MainModule))
-                    {
-                        foreach (var ca in type.CustomAttributes)
-                        {
-                            FixTypeRef(ca.AttributeType);
-
-                            // ALSO fix constructor reference
-                            if (ca.Constructor != null)
-                            {
-                                FixTypeRef(ca.Constructor.DeclaringType);
-                            }
-
-                            // Fix attribute argument types
-                            foreach (var arg in ca.ConstructorArguments)
-                            {
-                                if (arg.Value is TypeReference tr)
-                                    FixTypeRef(tr);
-                            }
-
-                            foreach (var named in ca.Fields)
-                            {
-                                if (named.Argument.Value is TypeReference tr)
-                                    FixTypeRef(tr);
-                            }
-
-                            foreach (var named in ca.Properties)
-                            {
-                                if (named.Argument.Value is TypeReference tr)
-                                    FixTypeRef(tr);
-                            }
-                        }
-                    }
-                }
-
-                void FixTypeRef(TypeReference tr)
-                {
-                    if (tr == null)
-                        return;
-
-                    // HANDLE GENERICS FIRST
-                    if (tr is GenericInstanceType git)
-                    {
-                        foreach (var arg in git.GenericArguments)
-                            FixTypeRef(arg);
-                    }
-
-                    // unwrap ref / array / pointer
-                    while (tr is TypeSpecification spec)
-                        tr = spec.ElementType;
-
-                    if (tr.Scope is not AssemblyNameReference aref)
-                        return;
-
-                    if (!crabgamemap.RootElement.TryGetProperty(aref.Name, out var asm))
-                        return;
-
-                    string ns = string.IsNullOrWhiteSpace(tr.Namespace) ? "Global" : tr.Namespace;
-                    if (!asm.TryGetProperty(ns, out var nsObj))
-                        return;
-
-                    foreach (var mapped in nsObj.EnumerateObject())
-                    {
-                        var objMaps = mapped.Value.GetProperty("ObjectMaps");
-                        string mac = objMaps.GetProperty("Mac").GetString()!;
-                        string win = objMaps.GetProperty("Windows").GetString()!;
-
-                        if (tr.Name == mac)
-                        {
-                            tr.Name = win;
-                            return;
-                        }
-                    }
-                }
-
-
-                macAsm.Write(Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)));
+                RewriteAsmWithMap(file,crabgamemap);
             }
 
+
+
+        }
+
+        static void RewriteAsmWithMap(string file,JsonDocument crabgamemap)
+        {
+
+            var filename = Path.GetFileName(file);
+            Console.WriteLine($"Trying to patch {filename}.dll");
+            if (filename.StartsWith("Unity") || filename.StartsWith("System") || filename.StartsWith("mscorlib") || filename.StartsWith("Mono"))
+            {
+                File.Copy(file, Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)), true);
+                Console.WriteLine($"Skiped file {filename}.dll because it was a system file");
+                return;
+            }
+            AssemblyDefinition macAsm = AssemblyDefinition.ReadAssembly(file);
+            foreach (var type in GetAllTypeDefinitions(macAsm.MainModule))
+            {
+                if (crabgamemap.RootElement.TryGetProperty(macAsm.Name.Name, out var asm))
+                {
+                    string nsName = string.IsNullOrWhiteSpace(type.Namespace) ? "Global" : type.Namespace;
+
+                    if (asm.TryGetProperty(nsName, out var ns))
+                    {
+                        foreach (var mappedtype in ns.EnumerateObject())
+                        {
+                            string mac = mappedtype.Value.GetProperty("ObjectMaps").GetProperty("Mac").GetString()!;
+
+                            if (mac == type.Name)
+                            {
+                                string Windows = mappedtype.Value.GetProperty("ObjectMaps").GetProperty("Windows").GetString()!;
+                                type.Name = Windows;
+                                break;
+                            }
+                        }
+                    }
+
+
+
+                }
+            }
+            foreach (var t in GetAllTypeDefinitions(macAsm.MainModule))
+            {
+                FixExternalRefs(t);
+            }
+
+            void FixExternalRefs(TypeDefinition t)
+            {
+                FixTypeRef(t.BaseType);
+
+                foreach (var i in t.Interfaces)
+                    FixTypeRef(i.InterfaceType);
+
+                foreach (var f in t.Fields)
+                    FixTypeRef(f.FieldType);
+
+                foreach (var m in t.Methods)
+                {
+                    FixTypeRef(m.ReturnType);
+
+                    foreach (var p in m.Parameters)
+                        FixTypeRef(p.ParameterType);
+
+                    if (!m.HasBody)
+                        continue;
+
+                    foreach (var v in m.Body.Variables)
+                        FixTypeRef(v.VariableType);
+
+                    foreach (var ins in m.Body.Instructions)
+                    {
+                        switch (ins.Operand)
+                        {
+                            case TypeReference tr:
+                                FixTypeRef(tr);
+                                break;
+
+                            case MethodReference mr:
+                                FixTypeRef(mr.DeclaringType);
+                                FixTypeRef(mr.ReturnType);
+                                foreach (var p in mr.Parameters)
+                                    FixTypeRef(p.ParameterType);
+                                break;
+
+                            case FieldReference fr:
+                                FixTypeRef(fr.DeclaringType);
+                                FixTypeRef(fr.FieldType);
+                                break;
+                        }
+                    }
+                }
+
+                foreach (var n in t.NestedTypes)
+                    FixExternalRefs(n);
+                foreach (var type in GetAllTypeDefinitions(macAsm.MainModule))
+                {
+                    foreach (var ca in type.CustomAttributes)
+                    {
+                        FixTypeRef(ca.AttributeType);
+
+                        // ALSO fix constructor reference
+                        if (ca.Constructor != null)
+                        {
+                            FixTypeRef(ca.Constructor.DeclaringType);
+                        }
+
+                        // Fix attribute argument types
+                        foreach (var arg in ca.ConstructorArguments)
+                        {
+                            if (arg.Value is TypeReference tr)
+                                FixTypeRef(tr);
+                        }
+
+                        foreach (var named in ca.Fields)
+                        {
+                            if (named.Argument.Value is TypeReference tr)
+                                FixTypeRef(tr);
+                        }
+
+                        foreach (var named in ca.Properties)
+                        {
+                            if (named.Argument.Value is TypeReference tr)
+                                FixTypeRef(tr);
+                        }
+                    }
+                }
+            }
+
+            void FixTypeRef(TypeReference tr)
+            {
+                if (tr == null)
+                    return;
+
+                // HANDLE GENERICS FIRST
+                if (tr is GenericInstanceType git)
+                {
+                    foreach (var arg in git.GenericArguments)
+                        FixTypeRef(arg);
+                }
+
+                // unwrap ref / array / pointer
+                while (tr is TypeSpecification spec)
+                    tr = spec.ElementType;
+
+                if (tr.Scope is not AssemblyNameReference aref)
+                    return;
+
+                if (!crabgamemap.RootElement.TryGetProperty(aref.Name, out var asm))
+                    return;
+
+                string ns = string.IsNullOrWhiteSpace(tr.Namespace) ? "Global" : tr.Namespace;
+                if (!asm.TryGetProperty(ns, out var nsObj))
+                    return;
+
+                foreach (var mapped in nsObj.EnumerateObject())
+                {
+                    var objMaps = mapped.Value.GetProperty("ObjectMaps");
+                    string mac = objMaps.GetProperty("Mac").GetString()!;
+                    string win = objMaps.GetProperty("Windows").GetString()!;
+
+                    if (tr.Name == mac)
+                    {
+                        tr.Name = win;
+                        return;
+                    }
+                }
+            }
+
+
+            macAsm.Write(Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)));
         }
         /// <summary>
         /// this is one of the functions of all time

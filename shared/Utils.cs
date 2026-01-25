@@ -20,9 +20,6 @@ public static class ConsoleUtils
 
     public static string GetSafeStringFromConsole(string Name)
     {
-
-
-
         string? Input = string.Empty;
         while (true)
         {
