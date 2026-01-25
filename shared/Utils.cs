@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Mono.Cecil;
 public static class ConsoleUtils
 {
     public static int GetSafeIntFromConsole(string Name)
@@ -41,5 +42,31 @@ public static class ConsoleUtils
         }
         return GetSafeIntFromConsole(Name);
 
+    }
+
+
+
+}
+
+public static class AsmUtils
+{
+    public static IEnumerable<TypeDefinition> GetAllTypeDefinitions(ModuleDefinition module)
+    {
+        foreach (var t in module.Types)
+        {
+            foreach (var tt in WalkType(t))
+                yield return tt;
+        }
+
+        static IEnumerable<TypeDefinition> WalkType(TypeDefinition t)
+        {
+            yield return t;
+
+            foreach (var n in t.NestedTypes)
+            {
+                foreach (var nn in WalkType(n))
+                    yield return nn;
+            }
+        }
     }
 }
