@@ -122,7 +122,7 @@ namespace Crab_Game_Mono_Creator
             {
                 var objMaps = mapped.Value.GetProperty("ObjectMaps");
                 string mac = objMaps.GetProperty("Mac").GetString()!;
-                string win = objMaps.GetProperty("Windows").GetString()!;
+                string win = objMaps.GetProperty(Program.MapToName).GetString()!;
 
                 if (tr.Name == mac)
                 {

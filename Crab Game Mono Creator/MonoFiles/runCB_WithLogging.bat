@@ -1,1 +1,1 @@
-"Crab Game.exe" > log.txt
+"Crab Game.exe" > log.txt 2>&1
