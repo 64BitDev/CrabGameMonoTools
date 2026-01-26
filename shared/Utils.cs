@@ -36,6 +36,32 @@ public static class ConsoleUtils
 
     }
 
+
+    public static bool GetSafeYesNoQuestion(string Name,string guid)
+    {
+        Console.WriteLine("Yes or No");
+        if (jsonSettings is not null)
+        {
+            if (jsonSettings.RootElement.TryGetProperty(guid, out var jsonvalue))
+            {
+                return jsonvalue.GetBoolean();
+            }
+        }
+        while (true)
+        {
+            string value = GetSafeStringFromConsole(Name, guid).ToLower();
+            if(value == "y" || value == "yes" || value == "1" || value == "true")
+            {
+                return true;
+            }
+            else if(value == "n" || value == "no" || value == "0" || value == "false") 
+            {
+                return false;
+            }
+        }
+        
+    }
+
     public static string GetSafeStringFromConsole(string Name, string guid)
     {
         if (jsonSettings is not null)

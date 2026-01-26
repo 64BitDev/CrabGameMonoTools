@@ -1,8 +1,7 @@
 ﻿using Mono.Cecil;
+using System;
 using System.IO;
 using System.Text.Json;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Crab_Game_Mono_Creator
 {
     internal class Program
@@ -12,16 +11,78 @@ namespace Crab_Game_Mono_Creator
         static string OutputPath;
         const string MonoFilesDir = "MonoFiles";
         public const string MapToName = "FixedDeop";
+        const string DefaultCGMapDownloadLoc = "https://github.com/64BitDev/CrabGameMappings/releases/latest/download/CrabGameMappings_V1Compatable.jecgm";
 
         static void Main(string[] args)
         {
             Console.WriteLine("=== Crab Game Mono Creator ===");
             Console.WriteLine("Created by 64bitdev");
             ConsoleUtils.SetupConsoleUtils();
-            
-            CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:", "CrabGameMacPath");
+            JsonDocument crabgamemap = null;
+
+            //see if we have cgmonomap.jecgm
+            if (!File.Exists("cgmonomap.jecgm"))
+            {
+                int TypeOfDownload = ConsoleUtils.SelectOptionFromArray("We could not find cgmonomap.jecgm please provide a replacment using one of the following:", "automaticlydownloadmap", "Download from 64BitDev/CrabGameMappings", "Download from custom github repo", "use local file", "quit");
+                switch (TypeOfDownload)
+                {
+                    case 1:
+                        {
+                            Console.WriteLine("Downloading from " + DefaultCGMapDownloadLoc);
+                            using var http = new HttpClient();
+                            http.DefaultRequestHeaders.UserAgent.ParseAdd("CGMapClient");
+
+                            using var response = http
+                                .GetAsync(DefaultCGMapDownloadLoc, HttpCompletionOption.ResponseHeadersRead)
+                                .GetAwaiter().GetResult();
+
+                            response.EnsureSuccessStatusCode();
+
+                            using var stream = response.Content
+                                .ReadAsStreamAsync()
+                                .GetAwaiter().GetResult();
+
+                            using var file = File.Create("cgmonomap.jecgm");
+                            stream.CopyTo(file);
+                            file.Close();
+                            crabgamemap = JsonDocument.Parse(File.ReadAllText("cgmonomap.jecgm"));
+                            break;
+                        }
+                    case 2:
+                        {
+                            string downloadLoc = ConsoleUtils.GetSafeStringFromConsole("Custom git repo Url","CustomGitRepoURL") + "/releases/latest/download/CrabGameMappings_V1Compatable.jecgm";
+                            Console.WriteLine("Downloading from " + downloadLoc);
+                            using var http = new HttpClient();
+                            http.DefaultRequestHeaders.UserAgent.ParseAdd("CGMapClient");
+
+                            using var response = http
+                                .GetAsync(DefaultCGMapDownloadLoc, HttpCompletionOption.ResponseHeadersRead)
+                                .GetAwaiter().GetResult();
+
+                            response.EnsureSuccessStatusCode();
+
+                            using var stream = response.Content
+                                .ReadAsStreamAsync()
+                                .GetAwaiter().GetResult();
+
+                            using var file = File.Create("cgmonomap.jecgm");
+                            stream.CopyTo(file);
+                            crabgamemap = JsonDocument.Parse(File.ReadAllText("cgmonomap.jecgm"));
+                            break;
+                        }
+                    case 3:
+                        crabgamemap = JsonDocument.Parse(File.ReadAllText(ConsoleUtils.GetSafeStringFromConsole("cgmonomap dir:","CrabGameMonoMapPath")));
+                        break;
+                }
+            }
+            else
+            {
+                crabgamemap  = JsonDocument.Parse(File.ReadAllText("cgmonomap.jecgm"));
+            }
+
+                CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:", "CrabGameMacPath");
             CrabGameWinPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Win Directory:", "CrabGameWinPath");
-            OutputPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mono Output Directory:","OutputPath");
+            OutputPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mono Output Directory:", "OutputPath");
 
             //make sure the stuff we want exists there
             if (!Directory.Exists(OutputPath))
@@ -49,19 +110,17 @@ namespace Crab_Game_Mono_Creator
             );
             Console.WriteLine($"Starting to patch Managed Assemblys");
             Directory.CreateDirectory(Path.Combine(OutputPath, "Crab Game_Data", "Managed"));
-            //preprossess json
-            var crabgamemap = JsonDocument.Parse(File.ReadAllText("cgmonomap.jecgm"));
             //get all of the dlls that this maps
             foreach (var file in Directory.GetFiles(CrabGameMacManagedDir))
             {
-                RewriteAsmWithMap(file,crabgamemap);
+                RewriteAsmWithMap(file, crabgamemap);
             }
 
             Console.WriteLine($"Done Writing Asms");
 
             Console.WriteLine($"Rewriting Unity Files");
             RewriteUnityFiles(crabgamemap);
-            
+
         }
 
 
@@ -84,7 +143,7 @@ namespace Crab_Game_Mono_Creator
                     {
                         foreach (var cls in container.Value.EnumerateObject())
                         {
-                            if(cls.Value.TryGetProperty(MapToName,out var MapNameProperty))
+                            if (cls.Value.TryGetProperty(MapToName, out var MapNameProperty))
                             {
                                 string find = cls.Value.GetProperty("Windows").GetString()!;
                                 string replace = MapNameProperty.GetString()!;
@@ -183,7 +242,7 @@ namespace Crab_Game_Mono_Creator
 
             return output.ToArray();
         }
-        static void RewriteAsmWithMap(string file,JsonDocument crabgamemap)
+        static void RewriteAsmWithMap(string file, JsonDocument crabgamemap)
         {
 
             var filename = Path.GetFileName(file);
@@ -222,7 +281,7 @@ namespace Crab_Game_Mono_Creator
             }
             foreach (var t in AsmUtils.GetAllTypeDefinitions(macAsm.MainModule))
             {
-                LocalUtils.FixExternalRefs(t,crabgamemap,macAsm);
+                LocalUtils.FixExternalRefs(t, crabgamemap, macAsm);
             }
 
 
