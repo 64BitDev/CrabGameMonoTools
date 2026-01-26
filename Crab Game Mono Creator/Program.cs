@@ -56,19 +56,24 @@ namespace Crab_Game_Mono_Creator
             {
                 RewriteAsmWithMap(file,crabgamemap);
             }
-            //test level replacment
-            Console.WriteLine($"====Test Level Replacment===");
+
+            Console.WriteLine($"Done Writing Asms");
+
+            Console.WriteLine($"Rewriting Unity Files");
+            RewriteUnityFiles(crabgamemap);
+            
+        }
+
+
+        static void RewriteUnityFiles(JsonDocument crabgamemap)
+        {
             Console.WriteLine($"Creating List of assets to replace");
             List<ReplacePattern> CGMap = new();
-            
+
             string CrabGameMonoDataDir = Path.Combine(
             OutputPath,
             "Crab Game_Data"
             );
-
-            // ----------------------------
-            // 1) BUILD PATTERNS ONCE
-            // ----------------------------
             List<ReplacePattern> patterns = new List<ReplacePattern>();
 
             foreach (var dll in crabgamemap.RootElement.EnumerateObject())
@@ -79,22 +84,21 @@ namespace Crab_Game_Mono_Creator
                     {
                         foreach (var cls in container.Value.EnumerateObject())
                         {
-                            string find = cls.Value.GetProperty("Windows").GetString()!;
-                            string replace = cls.Value.GetProperty(MapToName).GetString()!;
-
-                            patterns.Add(new ReplacePattern
+                            if(cls.Value.TryGetProperty(MapToName,out var MapNameProperty))
                             {
-                                Find = StringToUnityString(find),
-                                Replace = StringToUnityString(replace)
-                            });
+                                string find = cls.Value.GetProperty("Windows").GetString()!;
+                                string replace = MapNameProperty.GetString()!;
+
+                                patterns.Add(new ReplacePattern
+                                {
+                                    Find = StringToUnityString(find),
+                                    Replace = StringToUnityString(replace)
+                                });
+                            }
                         }
                     }
                 }
             }
-
-            // ----------------------------
-            // 2) BUILD LOOKUP TABLE ONCE
-            // ----------------------------
             Dictionary<byte, ReplacePattern[]> patternTable =
                 patterns
                     .GroupBy(p => p.Find[0])
@@ -103,9 +107,6 @@ namespace Crab_Game_Mono_Creator
                         g => g.OrderByDescending(p => p.Find.Length).ToArray()
                     );
 
-            // ----------------------------
-            // 3) PROCESS FILES
-            // ----------------------------
             foreach (var file in Directory.GetFiles(CrabGameMonoDataDir))
             {
                 Console.WriteLine($"Doing File {file}");
@@ -117,12 +118,23 @@ namespace Crab_Game_Mono_Creator
 
         }
 
-        // ----------------------------
-        // 4) FAST VARIABLE-LENGTH REPLACER
-        // ----------------------------
-        static byte[] ReplaceAll(
-            byte[] data,
-            Dictionary<byte, ReplacePattern[]> table)
+        struct ReplacePattern
+        {
+            public byte[] Find;
+            public byte[] Replace;
+        }
+
+        static byte[] StringToUnityString(string value)
+        {
+            byte[] utf8 = System.Text.Encoding.UTF8.GetBytes(value);
+
+            byte[] result = new byte[utf8.Length + 1];
+            Buffer.BlockCopy(utf8, 0, result, 0, utf8.Length);
+            result[result.Length - 1] = 0x00; // null terminato
+
+            return result;
+        }
+        static byte[] ReplaceAll(byte[] data, Dictionary<byte, ReplacePattern[]> table)
         {
             List<byte> output = new List<byte>(data.Length);
 
@@ -171,23 +183,6 @@ namespace Crab_Game_Mono_Creator
 
             return output.ToArray();
         }
-        struct ReplacePattern
-        {
-            public byte[] Find;
-            public byte[] Replace;
-        }
-
-        static byte[] StringToUnityString(string value)
-        {
-            byte[] utf8 = System.Text.Encoding.UTF8.GetBytes(value);
-
-            byte[] result = new byte[utf8.Length + 1];
-            Buffer.BlockCopy(utf8, 0, result, 0, utf8.Length);
-            result[result.Length - 1] = 0x00; // null terminator
-
-            return result;
-        }
-
         static void RewriteAsmWithMap(string file,JsonDocument crabgamemap)
         {
 
