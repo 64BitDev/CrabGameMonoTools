@@ -11,7 +11,7 @@ namespace Crab_Game_Mono_Creator
         static string OutputPath;
         const string MonoFilesDir = "MonoFiles";
         public const string MapToName = "FixedDeop";
-        const string DefaultCGMapDownloadLoc = "https://github.com/64BitDev/CrabGameMappings/releases/latest/download/CrabGameMappings_V1Compatable.jecgm";
+        const string DefaultCGMapDownloadLoc = "https://raw.githubusercontent.com/64BitDev/CrabGameMappings/refs/heads/builds/CrabGameMappings_V1Compatable.jecgm";
 
         static void Main(string[] args)
         {
@@ -23,7 +23,7 @@ namespace Crab_Game_Mono_Creator
             //see if we have cgmonomap.jecgm
             if (!File.Exists("cgmonomap.jecgm"))
             {
-                int TypeOfDownload = ConsoleUtils.SelectOptionFromArray("We could not find cgmonomap.jecgm please provide a replacment using one of the following:", "automaticlydownloadmap", "Download from 64BitDev/CrabGameMappings", "Download from custom github repo", "use local file", "quit");
+                int TypeOfDownload = ConsoleUtils.SelectOptionFromArray("We could not find cgmonomap.jecgm please provide a replacment using one of the following:", "automaticlydownloadmap", "Download from 64BitDev/CrabGameMappings ","Use Local File");
                 switch (TypeOfDownload)
                 {
                     case 1:
@@ -49,28 +49,6 @@ namespace Crab_Game_Mono_Creator
                             break;
                         }
                     case 2:
-                        {
-                            string downloadLoc = ConsoleUtils.GetSafeStringFromConsole("Custom git repo Url","CustomGitRepoURL") + "/releases/latest/download/CrabGameMappings_V1Compatable.jecgm";
-                            Console.WriteLine("Downloading from " + downloadLoc);
-                            using var http = new HttpClient();
-                            http.DefaultRequestHeaders.UserAgent.ParseAdd("CGMapClient");
-
-                            using var response = http
-                                .GetAsync(DefaultCGMapDownloadLoc, HttpCompletionOption.ResponseHeadersRead)
-                                .GetAwaiter().GetResult();
-
-                            response.EnsureSuccessStatusCode();
-
-                            using var stream = response.Content
-                                .ReadAsStreamAsync()
-                                .GetAwaiter().GetResult();
-
-                            using var file = File.Create("cgmonomap.jecgm");
-                            stream.CopyTo(file);
-                            crabgamemap = JsonDocument.Parse(File.ReadAllText("cgmonomap.jecgm"));
-                            break;
-                        }
-                    case 3:
                         crabgamemap = JsonDocument.Parse(File.ReadAllText(ConsoleUtils.GetSafeStringFromConsole("cgmonomap dir:","CrabGameMonoMapPath")));
                         break;
                 }
@@ -147,7 +125,6 @@ namespace Crab_Game_Mono_Creator
                             {
                                 string find = cls.Value.GetProperty("Windows").GetString()!;
                                 string replace = MapNameProperty.GetString()!;
-
                                 patterns.Add(new ReplacePattern
                                 {
                                     Find = StringToUnityString(find),
@@ -193,6 +170,8 @@ namespace Crab_Game_Mono_Creator
 
             return result;
         }
+
+
         static byte[] ReplaceAll(byte[] data, Dictionary<byte, ReplacePattern[]> table)
         {
             List<byte> output = new List<byte>(data.Length);
