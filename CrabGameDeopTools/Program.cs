@@ -8,6 +8,7 @@ using Mono.Cecil;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 namespace CrabGameDeopTools
@@ -74,6 +75,7 @@ namespace CrabGameDeopTools
             AssemblyInfoWritor.WriteStartArray();
             AssemblyInfoWritor.WriteStringValue("Mac");
             AssemblyInfoWritor.WriteStringValue("Windows");
+            AssemblyInfoWritor.WriteStringValue("FixedDeop");
             AssemblyInfoWritor.WriteEndArray();
             AssemblyInfoWritor.WriteEndObject();
             AssemblyInfoWritor.Flush();
@@ -117,6 +119,14 @@ namespace CrabGameDeopTools
 
 
         }
+
+        static void CreateDummyListingToCrabGameMap()
+        {
+            string ExtractedCrabGameMapDir = ConsoleUtils.GetSafeStringFromConsole("Extracted Crab Game Map Dir:", "MapDir");
+            int DummyListingType = ConsoleUtils.SelectOptionFromArray("Dummy Map Type:","DummyMapType","Fixed Size Dummy Map");
+        }
+        static uint ArrayIntoMap = 0;
+         
         static void CreateBasicCrabGameMacToWinDllMap(AssemblyDefinition MacDll, AssemblyDefinition WinDll, string OutputPath)
         {
             Directory.CreateDirectory(@$"{OutputPath}\{MacDll.Name.Name}");
@@ -125,6 +135,7 @@ namespace CrabGameDeopTools
             var winTop = WinDll.MainModule.Types;
 
             int topCount = Math.Min(macTop.Count, winTop.Count);
+            
 
             for (int i = 0; i < topCount; i++)
             {
@@ -141,7 +152,8 @@ namespace CrabGameDeopTools
                     MapTypeRecursive(macType.NestedTypes[i], winType.NestedTypes[i]);
                 }
             }
-
+            
+            
             void WriteTypeMap(TypeDefinition macType, TypeDefinition winType)
             {
                 string objNamespace = string.IsNullOrEmpty(macType.Namespace) ? "Global" : macType.Namespace;
@@ -154,12 +166,22 @@ namespace CrabGameDeopTools
 
                 using var fs = File.Create(outFile);
                 using var w = new Utf8JsonWriter(fs, new JsonWriterOptions { Indented = true });
-
+                ArrayIntoMap++;
                 w.WriteStartObject();
                 w.WritePropertyName("ObjectMaps");
                 w.WriteStartObject();
                 w.WriteString("Mac", macType.Name);
                 w.WriteString("Windows", winType.Name);
+                if(!UsesOnlyAscii(winType.Name))
+                {
+                    w.WriteString("FixedDeop", UIntToFixedString(ArrayIntoMap, Encoding.UTF8.GetByteCount(winType.Name)));
+                    
+                }
+                else
+                {
+                    w.WriteString("FixedDeop", winType.Name);
+                }
+                
                 w.WriteEndObject();
                 w.WriteEndObject();
                 w.Flush();
@@ -176,7 +198,36 @@ namespace CrabGameDeopTools
                 return s;
             }
         }
+        static string UIntToFixedString(uint value, int totalWidth)
+        {
+            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            const int baseN = 52;
 
+            if (totalWidth <= 0)
+                return string.Empty;
+
+            char[] buffer = new char[totalWidth];
+
+            uint v = value;
+
+            // encode value into the available width (rollover-safe)
+            for (int i = totalWidth - 1; i >= 0; i--)
+            {
+                buffer[i] = alphabet[(int)(v % baseN)];
+                v /= baseN;
+            }
+
+            return new string(buffer);
+        }
+        static bool UsesOnlyAscii(string s)
+        {
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] > 0x7F)
+                    return false;
+            }
+            return true;
+        }
         static void ConvertExtractedCrabGameDeopToAJsonEncodedCrabGameMap()
         {
             string extractDir = ConsoleUtils.GetSafeStringFromConsole("Extracted Crab Game Map Dir:","OutputMapDir");

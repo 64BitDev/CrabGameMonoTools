@@ -62,7 +62,7 @@ public static class ConsoleUtils
         Console.WriteLine($"Select one of the following");
         for (int i = 0; i < Options.Length; i++)
         {
-            Console.WriteLine($"{i}. {Options[i]}");
+            Console.WriteLine($"{i + 1}. {Options[i]}");
         }
         return GetSafeIntFromConsole(Name,guid);
 

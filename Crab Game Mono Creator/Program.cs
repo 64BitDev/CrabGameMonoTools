@@ -1,7 +1,8 @@
-﻿using System.IO;
+﻿using Mono.Cecil;
+using System.IO;
 using System.Text.Json;
 using System.Xml.Linq;
-using Mono.Cecil;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Crab_Game_Mono_Creator
 {
     internal class Program
@@ -10,7 +11,7 @@ namespace Crab_Game_Mono_Creator
         static string CrabGameWinPath;
         static string OutputPath;
         const string MonoFilesDir = "MonoFiles";
-        static Dictionary<string, string> MonoMapsGUID = new();
+        public const string MapToName = "FixedDeop";
 
         static void Main(string[] args)
         {
@@ -27,12 +28,6 @@ namespace Crab_Game_Mono_Creator
             {
                 Console.WriteLine("You selected a directory that does not exist Creating folder");
                 Directory.CreateDirectory(OutputPath);
-            }
-
-            if (Directory.GetFiles(OutputPath).Length > 1)
-            {
-                Console.WriteLine($"Output Path {OutputPath} has stuff in it did you mean to put it in {OutputPath}\\CrabGameMono");
-                return;
             }
 
 
@@ -61,20 +56,147 @@ namespace Crab_Game_Mono_Creator
             {
                 RewriteAsmWithMap(file,crabgamemap);
             }
+            //test level replacment
+            Console.WriteLine($"====Test Level Replacment===");
+            Console.WriteLine($"Creating List of assets to replace");
+            List<ReplacePattern> CGMap = new();
+            
+            string CrabGameMonoDataDir = Path.Combine(
+            OutputPath,
+            "Crab Game_Data"
+            );
 
+            // ----------------------------
+            // 1) BUILD PATTERNS ONCE
+            // ----------------------------
+            List<ReplacePattern> patterns = new List<ReplacePattern>();
 
+            foreach (var dll in crabgamemap.RootElement.EnumerateObject())
+            {
+                foreach (var ns in dll.Value.EnumerateObject())
+                {
+                    foreach (var container in ns.Value.EnumerateObject())
+                    {
+                        foreach (var cls in container.Value.EnumerateObject())
+                        {
+                            string find = cls.Value.GetProperty("Windows").GetString()!;
+                            string replace = cls.Value.GetProperty(MapToName).GetString()!;
 
+                            patterns.Add(new ReplacePattern
+                            {
+                                Find = StringToUnityString(find),
+                                Replace = StringToUnityString(replace)
+                            });
+                        }
+                    }
+                }
+            }
+
+            // ----------------------------
+            // 2) BUILD LOOKUP TABLE ONCE
+            // ----------------------------
+            Dictionary<byte, ReplacePattern[]> patternTable =
+                patterns
+                    .GroupBy(p => p.Find[0])
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.OrderByDescending(p => p.Find.Length).ToArray()
+                    );
+
+            // ----------------------------
+            // 3) PROCESS FILES
+            // ----------------------------
+            foreach (var file in Directory.GetFiles(CrabGameMonoDataDir))
+            {
+                Console.WriteLine($"Doing File {file}");
+
+                byte[] filebytes = File.ReadAllBytes(file);
+                byte[] patched = ReplaceAll(filebytes, patternTable);
+                File.WriteAllBytes(file, patched);
+            }
+
+        }
+
+        // ----------------------------
+        // 4) FAST VARIABLE-LENGTH REPLACER
+        // ----------------------------
+        static byte[] ReplaceAll(
+            byte[] data,
+            Dictionary<byte, ReplacePattern[]> table)
+        {
+            List<byte> output = new List<byte>(data.Length);
+
+            int i = 0;
+            while (i < data.Length)
+            {
+                if (!table.TryGetValue(data[i], out var candidates))
+                {
+                    output.Add(data[i]);
+                    i++;
+                    continue;
+                }
+
+                bool matched = false;
+
+                foreach (var p in candidates)
+                {
+                    if (i + p.Find.Length > data.Length)
+                        continue;
+
+                    bool ok = true;
+                    for (int j = 1; j < p.Find.Length; j++)
+                    {
+                        if (data[i + j] != p.Find[j])
+                        {
+                            ok = false;
+                            break;
+                        }
+                    }
+
+                    if (ok)
+                    {
+                        output.AddRange(p.Replace);
+                        i += p.Find.Length;
+                        matched = true;
+                        break;
+                    }
+                }
+
+                if (!matched)
+                {
+                    output.Add(data[i]);
+                    i++;
+                }
+            }
+
+            return output.ToArray();
+        }
+        struct ReplacePattern
+        {
+            public byte[] Find;
+            public byte[] Replace;
+        }
+
+        static byte[] StringToUnityString(string value)
+        {
+            byte[] utf8 = System.Text.Encoding.UTF8.GetBytes(value);
+
+            byte[] result = new byte[utf8.Length + 1];
+            Buffer.BlockCopy(utf8, 0, result, 0, utf8.Length);
+            result[result.Length - 1] = 0x00; // null terminator
+
+            return result;
         }
 
         static void RewriteAsmWithMap(string file,JsonDocument crabgamemap)
         {
 
             var filename = Path.GetFileName(file);
-            Console.WriteLine($"Trying to patch {filename}.dll");
+            Console.WriteLine($"Trying to patch {filename}");
             if (filename.StartsWith("Unity") || filename.StartsWith("System") || filename.StartsWith("mscorlib") || filename.StartsWith("Mono"))
             {
                 File.Copy(file, Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)), true);
-                Console.WriteLine($"Skiped file {filename}.dll because it was a system file");
+                Console.WriteLine($"Skiped file {filename} because it was a unity file");
                 return;
             }
             AssemblyDefinition macAsm = AssemblyDefinition.ReadAssembly(file);
@@ -92,7 +214,7 @@ namespace Crab_Game_Mono_Creator
 
                             if (mac == type.Name)
                             {
-                                string Windows = mappedtype.Value.GetProperty("ObjectMaps").GetProperty("Windows").GetString()!;
+                                string Windows = mappedtype.Value.GetProperty("ObjectMaps").GetProperty(MapToName).GetString()!;
                                 type.Name = Windows;
                                 break;
                             }
