@@ -15,5 +15,11 @@
     <Link>Utils.cs</Link>
   </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="deopmap.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>

@@ -1,0 +1,1077 @@
+{
+  "Assembly-CSharp": {
+    "": {
+      "\u109F\u10A1\u10A4\u10A4\u109F\u10A0\u109E\u109F\u10A2\u109B\u10A5": {
+        "FixedDeop": "BouncePlayer"
+      },
+      "\u109A\u109C\u10A1\u109B\u10A6\u109E\u10A1\u109E\u10A2\u10A4\u109F": {
+        "FixedDeop": "BulletHit"
+      },
+      "\u109F\u109F\u109B\u10A1\u109A\u109F\u10A5\u10A4\u10A3\u10A4\u10A1": {
+        "FixedDeop": "BustlingButtonInteract"
+      },
+      "\u109D\u10A8\u109F\u10A2\u109A\u10A2\u109D\u109E\u10A5\u109E\u109E": {
+        "FixedDeop": "ButtonTimer"
+      },
+      "\u109E\u109B\u10A7\u10A3\u10A8\u109D\u10A5\u10A3\u10A5\u10A6\u10A6": {
+        "FixedDeop": "CameraController"
+      },
+      "\u109C\u10A8\u1099\u10A6\u109A\u10A6\u10A3\u109A\u10A5\u109A\u109F": {
+        "FixedDeop": "CameraMove"
+      },
+      "\u10A1\u10A7\u10A6\u109D\u10A0\u10A2\u109E\u10A4\u10A2\u109A\u10A6": {
+        "FixedDeop": "ChangeFov"
+      },
+      "\u109D\u109C\u10A0\u109B\u10A6\u109A\u10A0\u10A7\u10A2\u10A1\u10A7": {
+        "FixedDeop": "Deobf_DodgeballTeamToClothesTrigger"
+      },
+      "\u109D\u10A6\u109E\u10A3\u10A7\u10A2\u10A3\u10A8\u10A8\u109E\u10A1": {
+        "FixedDeop": "Chatbox"
+      },
+      "\u10A5\u10A6\u10A8\u10A2\u10A0\u10A8\u10A8\u109F\u10A2\u109F\u10A2": {
+        "FixedDeop": "Deobf_UpdateInventoryInGame"
+      },
+      "\u10A4\u10A8\u10A0\u109D\u10A4\u10A7\u10A8\u10A1\u109B\u109C\u10A4": {
+        "FixedDeop": "Deobf_MenuCheckPromoItems"
+      },
+      "\u109D\u10A3\u10A4\u109F\u109B\u10A6\u109B\u109A\u10A4\u10A7\u109E": {
+        "FixedDeop": "CheckSfx"
+      },
+      "\u109C\u1099\u10A5\u10A8\u109C\u10A5\u10A1\u109B\u109B\u109B\u10A1": {
+        "FixedDeop": "CinematicCamera"
+      },
+      "\u10A7\u109A\u109B\u10A8\u10A7\u109F\u10A8\u10A2\u10A7\u109F\u10A3": {
+        "FixedDeop": "CircleRatioUI"
+      },
+      "\u10A8\u109F\u109F\u10A7\u10A0\u10A8\u10A4\u10A5\u10A7\u10A2\u10A4": {
+        "FixedDeop": "Deobf_BlockDropBlockManager"
+      },
+      "\u10A6\u109C\u1099\u10A4\u1099\u10A6\u109C\u109F\u109D\u10A1\u109C": {
+        "FixedDeop": "Deobf_BlockDropBlock"
+      },
+      "\u109B\u109D\u109D\u109E\u10A3\u109B\u109D\u10A1\u10A1\u109F\u10A8": {
+        "FixedDeop": "Deobf_MenuUiItemsDisplayDetails"
+      },
+      "\u10A1\u10A3\u109C\u10A7\u10A5\u10A2\u109F\u10A3\u109F\u109B\u10A2": {
+        "FixedDeop": "Deobf_CosmeticsManager"
+      },
+      "\u10A3\u109D\u10A2\u109F\u109E\u109C\u1099\u10A4\u10A2\u109E\u10A0": {
+        "FixedDeop": "Deobf_CrabFightCrabAnimator"
+      },
+      "\u10A2\u10A5\u109F\u10A2\u109F\u10A4\u10A0\u10A7\u10A8\u10A7\u10A5": {
+        "FixedDeop": "Deobf_CrabFightCrabManager"
+      },
+      "\u109E\u109E\u1099\u109A\u10A7\u10A7\u10A7\u109A\u10A2\u10A2\u1099": {
+        "FixedDeop": "Deobf_CrabFightCrabBallAttackController"
+      },
+      "\u10A4\u10A5\u10A0\u109E\u10A8\u10A5\u10A0\u10A2\u10A8\u10A0\u10A6": {
+        "FixedDeop": "Deobf_CrabFightCrabSpikeAttack"
+      },
+      "\u109B\u109E\u1099\u1099\u10A0\u1099\u10A8\u109A\u10A1\u109C\u10A2": {
+        "FixedDeop": "Deobf_CrabFightCrabSpikeAttackController"
+      },
+      "\u10A8\u109D\u10A8\u10A7\u10A6\u10A4\u109F\u10A2\u109C\u109D\u10A3": {
+        "FixedDeop": "Deobf_CrabFightCrabBossBar"
+      },
+      "\u10A7\u109E\u109B\u109D\u10A2\u109E\u10A3\u10A5\u109A\u10A0\u109D": {
+        "FixedDeop": "Deobf_MenuUiCrafting"
+      },
+      "\u10A5\u10A4\u109D\u10A2\u109D\u1099\u10A1\u10A5\u109C\u1099\u10A7": {
+        "FixedDeop": "Deobf_MenuUiCrateRates"
+      },
+      "\u10A0\u109B\u10A4\u10A0\u109E\u10A7\u109A\u109B\u10A4\u10A0\u10A8": {
+        "FixedDeop": "Deobf_CrateRoomManager"
+      },
+      "\u10A6\u109E\u10A1\u109F\u10A3\u10A2\u10A4\u10A4\u109F\u10A1\u109E": {
+        "FixedDeop": "CreditsUI"
+      },
+      "\u109B\u109F\u10A8\u10A2\u10A7\u10A7\u10A1\u109C\u10A2\u109F\u109A": {
+        "FixedDeop": "Deobf_GeneralUiInventory"
+      },
+      "\u1099\u10A6\u10A0\u10A7\u109C\u109F\u10A3\u109F\u10A4\u10A7\u10A5": {
+        "FixedDeop": "DamageNumbers"
+      },
+      "\u10A0\u109F\u109A\u10A0\u109D\u109A\u10A5\u109F\u10A8\u10A6\u109C": {
+        "FixedDeop": "Deobf_CrabFightCrabSpikeAttackDamage"
+      },
+      "\u109D\u109F\u10A1\u1099\u10A1\u10A2\u10A2\u10A8\u109C\u10A6\u10A5": {
+        "FixedDeop": "Deobf_CrabFightCrabAttackHitbox"
+      },
+      "\u10A4\u1099\u10A3\u109A\u10A7\u109E\u10A7\u10A6\u1099\u1099\u109C": {
+        "FixedDeop": "Decals"
+      },
+      "\u1099\u109A\u109E\u10A5\u10A0\u10A3\u109F\u10A6\u10A0\u10A1\u10A7": {
+        "FixedDeop": "DetectUnderWater"
+      },
+      "\u1099\u10A6\u10A3\u10A3\u109F\u10A2\u10A4\u109F\u10A2\u109D\u10A7": {
+        "FixedDeop": "Deobf_OnlinePlayerStandoffPenalties"
+      },
+      "\u109C\u10A0\u1099\u10A7\u109D\u109D\u1099\u10A7\u10A6\u109B\u10A2": {
+        "FixedDeop": "DisplayMic"
+      },
+      "\u10A7\u10A3\u109D\u109C\u10A4\u10A1\u10A4\u10A1\u10A7\u109B\u10A0": {
+        "FixedDeop": "DissonanceManager"
+      },
+      "\u10A5\u10A6\u10A8\u10A4\u109F\u109D\u10A3\u109D\u109C\u10A8\u10A4": {
+        "FixedDeop": "DissonancePlayer"
+      },
+      "\u109C\u10A1\u10A0\u109D\u109C\u109F\u10A6\u10A0\u10A0\u1099\u109C": {
+        "FixedDeop": "Dorm"
+      },
+      "\u10A7\u10A0\u109D\u109F\u1099\u10A7\u109A\u1099\u10A6\u10A8\u109B": {
+        "FixedDeop": "Deobf_WinScreenUiDropAlert"
+      },
+      "\u10A1\u1099\u10A3\u10A7\u109E\u10A5\u10A7\u1099\u10A0\u10A5\u109C": {
+        "FixedDeop": "DropdownSetting"
+      },
+      "\u109F\u10A7\u10A1\u10A3\u10A4\u109F\u10A8\u10A8\u10A5\u1099\u10A3": {
+        "FixedDeop": "EffectManager"
+      },
+      "\u10A1\u10A6\u10A4\u109D\u10A4\u10A5\u10A3\u10A8\u10A4\u10A8\u10A8": {
+        "FixedDeop": "EnableAudio"
+      },
+      "\u109F\u109E\u109A\u10A0\u109F\u10A8\u109D\u109E\u1099\u109B\u10A0": {
+        "FixedDeop": "ExplodePlayer"
+      },
+      "\u10A4\u10A6\u10A4\u10A3\u1099\u10A1\u109F\u109E\u109B\u1099\u1099": {
+        "FixedDeop": "Deobf_DeathFromAboveBlockManager"
+      },
+      "\u10A5\u10A5\u10A2\u10A4\u10A2\u109F\u10A2\u10A2\u10A6\u109C\u10A7": {
+        "FixedDeop": "FitToParentUI"
+      },
+      "\u10A2\u109E\u10A8\u10A2\u10A8\u10A3\u10A0\u10A4\u109F\u10A7\u109F": {
+        "FixedDeop": "FloodServers"
+      },
+      "\u10A5\u10A8\u109C\u109E\u109E\u109B\u10A1\u1099\u10A7\u10A4\u109A": {
+        "FixedDeop": "FollowPlayerCamera"
+      },
+      "\u10A0\u10A4\u10A3\u10A0\u10A2\u10A2\u10A8\u10A1\u10A5\u10A1\u109C": {
+        "FixedDeop": "FollowTarget"
+      },
+      "\u109E\u10A8\u10A5\u10A1\u10A0\u10A8\u10A3\u10A1\u109F\u109F\u10A5": {
+        "FixedDeop": "FootstepOnTouch"
+      },
+      "\u109A\u10A2\u10A0\u10A0\u10A7\u109B\u10A3\u10A3\u10A5\u109E\u10A7": {
+        "FixedDeop": "GameAudio"
+      },
+      "\u10A8\u109E\u109C\u109A\u109E\u10A8\u109D\u10A8\u109A\u10A0\u10A8": {
+        "FixedDeop": "Deobf_WinScreenUiDropAlerts"
+      },
+      "\u109E\u10A6\u10A8\u10A7\u109A\u109A\u10A2\u109E\u10A3\u10A0\u109F": {
+        "FixedDeop": "GameModeManager"
+      },
+      "\u10A5\u10A2\u10A8\u109F\u10A3\u10A2\u109C\u109C\u10A4\u109B\u10A6": {
+        "FixedDeop": "GameModeTimer"
+      },
+      "\u109D\u10A8\u10A4\u109B\u1099\u109D\u10A2\u10A1\u10A3\u10A0\u10A3": {
+        "FixedDeop": "GameServer"
+      },
+      "\u10A4\u109A\u109B\u109E\u10A3\u109D\u109B\u10A5\u10A1\u109F\u1099": {
+        "FixedDeop": "GameUI"
+      },
+      "\u10A5\u10A7\u10A6\u10A2\u109A\u10A2\u10A7\u109C\u109B\u10A2\u109B": {
+        "FixedDeop": "GlassManager"
+      },
+      "\u109D\u10A1\u109B\u10A0\u109C\u10A0\u109E\u109D\u10A5\u10A2\u109D": {
+        "FixedDeop": "GoldVignette"
+      },
+      "\u10A5\u10A0\u10A6\u109C\u10A5\u109B\u10A5\u10A6\u10A3\u109A\u10A1": {
+        "FixedDeop": "Deobf_FollowTarget"
+      },
+      "\u10A5\u109F\u10A1\u10A5\u109B\u10A0\u1099\u1099\u109E\u10A3\u10A3": {
+        "FixedDeop": "HatScoreboard"
+      },
+      "\u10A8\u10A5\u109F\u109A\u10A8\u10A0\u10A4\u10A8\u10A6\u10A1\u10A7": {
+        "FixedDeop": "HatUI"
+      },
+      "\u109D\u109F\u10A8\u10A1\u1099\u109D\u109A\u109F\u1099\u10A7\u1099": {
+        "FixedDeop": "Deobf_GeneralUiInventoryItemHover"
+      },
+      "\u10A1\u10A3\u10A8\u109A\u109C\u10A1\u10A6\u109D\u10A2\u109C\u10A0": {
+        "FixedDeop": "InputManager"
+      },
+      "\u109D\u10A8\u109B\u10A0\u109E\u109A\u10A2\u10A5\u109D\u10A8\u10A4": {
+        "FixedDeop": "Deobf_MenuUiRecycleItemDisplay"
+      },
+      "\u10A5\u109B\u10A1\u10A2\u10A4\u10A5\u109D\u109E\u10A0\u1099\u10A4": {
+        "FixedDeop": "IntroUI"
+      },
+      "\u10A4\u10A5\u1099\u10A3\u1099\u109F\u10A1\u10A5\u10A2\u10A8\u10A0": {
+        "FixedDeop": "Deobf_SteamInventory"
+      },
+      "\u10A6\u10A8\u1099\u10A4\u109E\u10A3\u109A\u109B\u109F\u10A4\u10A4": {
+        "FixedDeop": "InviteWindow"
+      },
+      "\u10A2\u1099\u10A1\u10A0\u109E\u10A7\u109D\u10A5\u10A8\u1099\u10A4": {
+        "FixedDeop": "ItemAnimations"
+      },
+      "\u10A8\u109F\u1099\u10A8\u10A7\u10A6\u10A6\u109B\u109D\u109A\u10A0": {
+        "FixedDeop": "Deobf_MenuUiItemStore"
+      },
+      "\u109A\u10A0\u10A4\u10A5\u10A6\u10A0\u10A6\u109E\u10A4\u109A\u10A0": {
+        "FixedDeop": "JoinLobbyBtn"
+      },
+      "\u10A6\u109B\u109F\u109C\u10A4\u109D\u10A4\u1099\u109D\u10A0\u109B": {
+        "FixedDeop": "JumpPad"
+      },
+      "\u109A\u109B\u109B\u109B\u109A\u10A3\u10A8\u10A0\u10A4\u10A2\u10A4": {
+        "FixedDeop": "KillCheater"
+      },
+      "\u109F\u109F\u109F\u10A5\u1099\u109A\u109F\u109F\u109A\u10A7\u10A8": {
+        "FixedDeop": "Deobf_KillPlayerOnTrigger"
+      },
+      "\u10A1\u109C\u10A6\u109E\u109C\u10A4\u10A5\u109A\u109E\u109B\u1099": {
+        "FixedDeop": "Deobf_DeathFromAboveBlockCollider"
+      },
+      "\u10A6\u10A1\u10A1\u10A6\u109C\u109C\u109B\u10A4\u10A2\u109F\u10A4": {
+        "FixedDeop": "KillPlayerOutOfBounds"
+      },
+      "\u109C\u109C\u109F\u10A7\u10A7\u109A\u10A8\u10A8\u10A4\u109D\u109E": {
+        "FixedDeop": "KingOfTheHillUI"
+      },
+      "\u109B\u109D\u10A0\u10A0\u10A5\u109B\u109D\u109D\u10A3\u109C\u10A7": {
+        "FixedDeop": "KingScoreboard"
+      },
+      "\u109B\u10A8\u10A3\u10A3\u10A4\u10A8\u109D\u109A\u109F\u109F\u10A4": {
+        "FixedDeop": "Ladder"
+      },
+      "\u10A0\u10A8\u10A5\u1099\u10A4\u109E\u10A7\u1099\u10A8\u10A3\u10A6": {
+        "FixedDeop": "LavaDamage"
+      },
+      "\u10A2\u1099\u10A3\u10A0\u10A4\u10A7\u109B\u10A2\u109A\u10A3\u109F": {
+        "FixedDeop": "LavaPiece"
+      },
+      "\u1099\u109B\u109F\u109D\u10A8\u10A8\u109E\u10A8\u109F\u10A8\u1099": {
+        "FixedDeop": "LightsManager"
+      },
+      "\u10A8\u109F\u1099\u10A7\u10A7\u109E\u10A0\u10A8\u10A1\u109F\u10A7": {
+        "FixedDeop": "LinkOpener"
+      },
+      "\u1099\u10A0\u109B\u109B\u109D\u109D\u10A0\u10A4\u109B\u1099\u109A": {
+        "FixedDeop": "LobbyCamera"
+      },
+      "\u109D\u109C\u10A0\u10A7\u10A0\u109E\u10A6\u10A4\u10A5\u10A6\u109F": {
+        "FixedDeop": "LobbySettings"
+      },
+      "\u10A1\u109C\u10A0\u109F\u10A3\u10A6\u109D\u109C\u10A1\u10A4\u10A6": {
+        "FixedDeop": "LobbyUtility"
+      },
+      "\u10A8\u10A1\u109F\u1099\u109C\u10A1\u10A4\u10A6\u109F\u109D\u10A5": {
+        "FixedDeop": "LocalSfx"
+      },
+      "\u10A8\u10A8\u109F\u10A1\u109F\u109E\u10A6\u10A0\u10A5\u10A5\u109A": {
+        "FixedDeop": "MacStuff"
+      },
+      "\u10A4\u109F\u109F\u10A3\u1099\u109B\u10A1\u109E\u109A\u10A6\u10A1": {
+        "FixedDeop": "MakeDissonance"
+      },
+      "\u10A2\u10A1\u10A1\u109B\u10A1\u10A5\u10A3\u109E\u10A5\u10A2\u1099": {
+        "FixedDeop": "Deobf_MenuSnowSpeedModdingDetector"
+      },
+      "\u10A3\u10A1\u10A3\u1099\u109E\u109B\u10A2\u109B\u1099\u10A0\u109D": {
+        "FixedDeop": "ManagePlayerListing"
+      },
+      "\u10A1\u10A5\u109F\u10A8\u10A0\u10A1\u109A\u10A0\u10A7\u10A7\u10A1": {
+        "FixedDeop": "MapCamera"
+      },
+      "\u109A\u10A0\u10A0\u109E\u10A8\u10A6\u109F\u10A1\u109D\u10A7\u10A4": {
+        "FixedDeop": "MapManager"
+      },
+      "\u109C\u109D\u109D\u10A6\u10A6\u109A\u10A6\u10A3\u10A4\u1099\u10A8": {
+        "FixedDeop": "Deobf_MenuUiServerListingGameModesAndMapsInfo"
+      },
+      "\u10A8\u10A1\u10A5\u10A0\u109F\u10A6\u10A6\u10A6\u109A\u109E\u10A2": {
+        "FixedDeop": "Deobf_MenuCameraPositioner"
+      },
+      "\u10A2\u109B\u10A1\u109D\u10A6\u109C\u109A\u10A7\u1099\u109D\u10A7": {
+        "FixedDeop": "Deobf_MenuPlayerCosmetics"
+      },
+      "\u10A6\u10A0\u10A2\u10A1\u10A5\u109A\u10A8\u1099\u10A5\u10A8\u10A1": {
+        "FixedDeop": "MicDropDown"
+      },
+      "\u109F\u109A\u10A5\u109E\u109F\u109D\u10A7\u10A6\u109D\u109C\u10A8": {
+        "FixedDeop": "MicIcon"
+      },
+      "\u10A4\u109D\u10A3\u109C\u109E\u109D\u10A7\u10A4\u10A3\u10A2\u10A8": {
+        "FixedDeop": "MicSetting"
+      },
+      "\u10A4\u10A7\u109B\u109A\u109B\u10A0\u10A7\u10A5\u10A0\u10A8\u10A1": {
+        "FixedDeop": "Deobf_MenuUiCreateLobbyGameModesAndMaps"
+      },
+      "\u10A0\u1099\u10A4\u109A\u10A8\u109F\u10A3\u10A0\u109F\u10A6\u109A": {
+        "FixedDeop": "Deobf_MenuUiServerListingGameModesAndMapsHover"
+      },
+      "\u10A0\u10A7\u109B\u10A2\u109F\u109D\u10A5\u10A8\u109C\u10A8\u109E": {
+        "FixedDeop": "MoveAlert"
+      },
+      "\u10A7\u109E\u10A4\u10A1\u1099\u10A7\u10A6\u10A3\u10A1\u10A0\u10A5": {
+        "FixedDeop": "MoveLava"
+      },
+      "\u10A5\u10A1\u10A4\u10A5\u10A1\u10A1\u109C\u10A3\u109D\u10A4\u10A6": {
+        "FixedDeop": "MovingObject"
+      },
+      "\u10A3\u10A1\u10A7\u10A1\u10A6\u109D\u109C\u109D\u109C\u10A5\u10A3": {
+        "FixedDeop": "NetStatus"
+      },
+      "\u10A1\u10A0\u109F\u109B\u10A2\u1099\u1099\u10A2\u10A2\u109F\u109B": {
+        "FixedDeop": "Deobf_MenuUiItemsDisplay"
+      },
+      "\u109E\u10A2\u10A1\u10A1\u10A0\u10A8\u10A3\u10A6\u10A2\u10A6\u109B": {
+        "FixedDeop": "ObjectHitSfx"
+      },
+      "\u10A1\u10A4\u10A8\u109B\u109A\u10A7\u10A1\u10A2\u109A\u109E\u109C": {
+        "FixedDeop": "Unknown_MonoBehaviourPublicVo2"
+      },
+      "\u10A3\u1099\u109E\u109D\u10A0\u10A5\u10A1\u109D\u109B\u109C\u10A3": {
+        "FixedDeop": "OnlyShowForGamemode"
+      },
+      "\u10A6\u109C\u10A3\u109A\u10A8\u10A6\u10A3\u109B\u10A2\u109F\u10A8": {
+        "FixedDeop": "Deobf_CrateOpeningDisplayManager"
+      },
+      "\u10A8\u109E\u10A2\u109F\u10A1\u109C\u10A3\u10A0\u10A7\u10A5\u109E": {
+        "FixedDeop": "Deobf_OverrideShadowSettings"
+      },
+      "\u10A5\u109F\u1099\u10A0\u109A\u109F\u10A6\u109A\u10A0\u109F\u109F": {
+        "FixedDeop": "PauseUI"
+      },
+      "\u109D\u109C\u10A7\u1099\u109D\u109B\u1099\u10A6\u10A4\u109C\u109F": {
+        "FixedDeop": "PersistentPlayerData"
+      },
+      "\u10A6\u10A7\u109B\u109A\u10A6\u10A7\u1099\u10A4\u10A8\u10A2\u10A3": {
+        "FixedDeop": "PiecesManager"
+      },
+      "\u10A7\u10A2\u10A7\u109C\u109F\u109E\u109B\u109C\u10A6\u10A1\u1099": {
+        "FixedDeop": "PlayerAudio"
+      },
+      "\u10A7\u10A4\u10A8\u10A4\u10A6\u109E\u10A1\u10A0\u10A3\u10A6\u10A5": {
+        "FixedDeop": "Deobf_OnlinePlayerCosmetics"
+      },
+      "\u109B\u109C\u10A5\u10A6\u10A2\u10A8\u10A8\u109A\u109A\u10A3\u10A3": {
+        "FixedDeop": "PlayerList"
+      },
+      "\u109E\u10A8\u109E\u10A5\u109C\u109A\u109B\u10A0\u10A6\u109D\u10A5": {
+        "FixedDeop": "PlayerListingPrefab"
+      },
+      "\u109F\u10A5\u10A7\u109B\u109F\u109F\u10A8\u109D\u109C\u109D\u10A7": {
+        "FixedDeop": "PlayersInLobby"
+      },
+      "\u109F\u10A7\u10A7\u109B\u109A\u10A4\u10A2\u10A6\u109A\u10A7\u109A": {
+        "FixedDeop": "Deobf_MenuUiCreateLobbyPractice"
+      },
+      "\u10A8\u109F\u109F\u1099\u10A2\u109F\u10A0\u10A0\u10A8\u109B\u109D": {
+        "FixedDeop": "Deobf_CrabFightCrabAttackWarning"
+      },
+      "\u109B\u109F\u109C\u10A6\u10A5\u10A5\u109E\u109F\u10A4\u10A3\u10A7": {
+        "FixedDeop": "Deobf_CrabFightCrabBallAttackLandingFx"
+      },
+      "\u109C\u109D\u109B\u109D\u1099\u1099\u10A8\u10A6\u109B\u10A6\u109D": {
+        "FixedDeop": "Deobf_CrabFightCrabBallAttackFalling"
+      },
+      "\u10A5\u109E\u10A3\u10A2\u10A0\u109D\u10A4\u1099\u109C\u1099\u109D": {
+        "FixedDeop": "Deobf_CrabFightCrabBallAttack"
+      },
+      "\u10A0\u10A4\u10A8\u10A8\u109D\u10A2\u109A\u109A\u109D\u10A0\u10A7": {
+        "FixedDeop": "Prompt"
+      },
+      "\u10A7\u109F\u10A5\u10A5\u109B\u10A2\u109D\u10A8\u10A4\u10A2\u109A": {
+        "FixedDeop": "PromptPrefab"
+      },
+      "\u10A0\u10A0\u109F\u1099\u10A8\u10A8\u10A8\u10A7\u10A1\u109A\u109F": {
+        "FixedDeop": "PunchPlayers"
+      },
+      "\u109E\u1099\u10A7\u10A0\u10A5\u109E\u10A6\u109F\u10A6\u109C\u10A8": {
+        "FixedDeop": "Deobf_QuestManager"
+      },
+      "\u109B\u10A6\u10A7\u10A6\u109C\u109E\u10A2\u10A1\u10A1\u10A1\u10A7": {
+        "FixedDeop": "Deobf_MenuUiDailyQuest"
+      },
+      "\u109B\u1099\u109F\u10A4\u1099\u109D\u109A\u10A8\u109E\u109D\u109C": {
+        "FixedDeop": "Deobf_GameUiPauseMenuDailyQuest"
+      },
+      "\u10A7\u10A4\u10A0\u10A8\u10A1\u10A5\u10A0\u10A5\u109E\u109D\u10A5": {
+        "FixedDeop": "Deobf_RaceGasQuestProgression"
+      },
+      "\u10A3\u10A6\u109F\u109F\u109C\u10A0\u10A7\u10A5\u1099\u10A1\u10A4": {
+        "FixedDeop": "RaceUI"
+      },
+      "\u10A7\u109E\u10A3\u109C\u10A6\u109B\u109D\u10A3\u10A8\u10A5\u109B": {
+        "FixedDeop": "ReadyDisplay"
+      },
+      "\u10A5\u10A5\u10A0\u10A4\u10A0\u109C\u10A7\u1099\u109C\u109E\u10A3": {
+        "FixedDeop": "ReadyPrefabUi"
+      },
+      "\u109B\u10A3\u109E\u1099\u10A7\u10A1\u10A3\u109C\u109D\u109F\u10A4": {
+        "FixedDeop": "Deobf_MenuUiRecycleItem"
+      },
+      "\u109E\u10A0\u109E\u109C\u10A7\u109C\u10A4\u10A6\u10A8\u10A4\u109C": {
+        "FixedDeop": "RedLightSafeZone"
+      },
+      "\u109B\u109D\u1099\u10A6\u109F\u10A6\u10A8\u109A\u10A5\u10A2\u109A": {
+        "FixedDeop": "RedLightStatue"
+      },
+      "\u109E\u10A4\u10A3\u109E\u10A6\u109F\u109F\u10A3\u10A4\u109A\u109A": {
+        "FixedDeop": "ReloadUI"
+      },
+      "\u109A\u1099\u109F\u109D\u10A5\u109E\u10A2\u10A5\u10A6\u10A0\u109C": {
+        "FixedDeop": "ResetSave"
+      },
+      "\u1099\u109E\u109F\u109B\u109A\u10A1\u10A8\u10A3\u10A2\u10A1\u109E": {
+        "FixedDeop": "RewardUI"
+      },
+      "\u109A\u10A0\u10A2\u10A1\u10A1\u10A1\u10A7\u10A6\u10A5\u10A4\u109E": {
+        "FixedDeop": "Unknown_MonoBehaviourPublicVoStVoUpVoVoVoVoVoVoUnique"
+      },
+      "\u109C\u1099\u1099\u10A2\u10A7\u109A\u10A2\u10A5\u10A1\u10A4\u10A8": {
+        "FixedDeop": "Deobf_GeneralUiInventoryItemClick"
+      },
+      "\u109C\u10A6\u10A2\u1099\u109C\u10A7\u109F\u10A4\u10A8\u10A1\u10A8": {
+        "FixedDeop": "RisingLava"
+      },
+      "\u109E\u109D\u109F\u109C\u109B\u1099\u10A4\u10A1\u10A0\u109A\u10A1": {
+        "FixedDeop": "RotateAround"
+      },
+      "\u10A0\u10A0\u10A8\u10A7\u10A4\u10A4\u109D\u1099\u109C\u109F\u10A1": {
+        "FixedDeop": "RotationObject"
+      },
+      "\u109F\u10A8\u109C\u10A4\u10A8\u1099\u10A8\u109F\u109C\u10A1\u10A6": {
+        "FixedDeop": "ScoreVisuals"
+      },
+      "\u10A7\u10A2\u109F\u109C\u10A2\u10A6\u10A0\u10A0\u10A4\u10A3\u10A1": {
+        "FixedDeop": "DiffuseAudio"
+      },
+      "\u10A3\u109A\u10A7\u10A5\u10A6\u10A0\u109B\u109F\u10A8\u10A5\u10A0": {
+        "FixedDeop": "MusicController"
+      },
+      "\u10A4\u10A1\u109F\u109E\u109C\u10A7\u109A\u10A7\u109E\u10A7\u109C": {
+        "FixedDeop": "PlayerVoice"
+      },
+      "\u109F\u109A\u109B\u1099\u10A0\u10A6\u10A0\u109B\u10A0\u10A0\u10A5": {
+        "FixedDeop": "RandomSfx"
+      },
+      "\u109A\u10A7\u109F\u10A4\u10A6\u10A6\u109D\u10A3\u109A\u109F\u109B": {
+        "FixedDeop": "VoiceChat"
+      },
+      "\u10A6\u10A3\u10A3\u10A8\u10A8\u109B\u1099\u109A\u109A\u10A1\u10A0": {
+        "FixedDeop": "PlayerColors"
+      },
+      "\u1099\u10A6\u109C\u10A4\u10A3\u10A1\u1099\u10A1\u109D\u10A5\u10A7": {
+        "FixedDeop": "GameModeBombTag"
+      },
+      "\u109C\u10A4\u109E\u1099\u10A7\u109F\u109F\u109D\u10A4\u109F\u10A3": {
+        "FixedDeop": "GameModeButtons"
+      },
+      "\u109C\u10A7\u10A4\u109E\u10A1\u109B\u10A2\u109D\u109C\u109F\u10A8": {
+        "FixedDeop": "Deobf_GameModeBlockDrop"
+      },
+      "\u10A6\u109D\u10A7\u109E\u109A\u10A2\u109B\u10A0\u109F\u10A8\u10A6": {
+        "FixedDeop": "Deobf_GameModeCrabFight"
+      },
+      "\u10A8\u10A1\u10A1\u10A6\u109E\u109D\u10A3\u109A\u10A1\u1099\u10A3": {
+        "FixedDeop": "Deobf_GameModeDeathFromAbove"
+      },
+      "\u10A8\u1099\u10A4\u109A\u10A0\u10A7\u1099\u109C\u109C\u1099\u10A6": {
+        "FixedDeop": "Deobf_GameModeDodgeball"
+      },
+      "\u1099\u10A8\u10A0\u10A3\u10A5\u10A3\u109C\u10A5\u10A8\u109C\u10A7": {
+        "FixedDeop": "GameModeFallingPlatforms"
+      },
+      "\u10A8\u10A8\u109E\u10A5\u109A\u109A\u10A1\u10A0\u109A\u10A8\u109C": {
+        "FixedDeop": "GameModeGlass"
+      },
+      "\u10A1\u10A4\u10A2\u10A8\u10A0\u10A7\u10A8\u1099\u109C\u1099\u10A5": {
+        "FixedDeop": "GameModeHat"
+      },
+      "\u109B\u10A5\u10A8\u10A2\u10A4\u10A4\u10A7\u109B\u10A6\u109D\u10A1": {
+        "FixedDeop": "GameModeHnS"
+      },
+      "\u10A3\u109D\u10A1\u109B\u10A0\u109F\u10A5\u10A0\u10A3\u10A4\u109F": {
+        "FixedDeop": "GameModeKing"
+      },
+      "\u10A6\u10A1\u1099\u10A0\u10A3\u10A6\u10A5\u10A5\u109A\u1099\u109A": {
+        "FixedDeop": "GameModeLights"
+      },
+      "\u1099\u109B\u109E\u1099\u10A2\u10A7\u10A2\u109A\u10A1\u10A6\u109E": {
+        "FixedDeop": "Deobf_GameModePractice"
+      },
+      "\u10A1\u109A\u10A6\u10A0\u10A8\u10A3\u109F\u10A5\u10A5\u10A3\u10A2": {
+        "FixedDeop": "GameModePush"
+      },
+      "\u10A1\u109E\u10A6\u10A7\u10A4\u10A1\u10A0\u10A2\u109C\u10A7\u109B": {
+        "FixedDeop": "GameModeRace"
+      },
+      "\u10A4\u109B\u10A5\u109E\u10A3\u10A3\u109B\u10A2\u109D\u109D\u10A2": {
+        "FixedDeop": "GameModeRedLight"
+      },
+      "\u10A1\u109B\u109A\u109D\u10A6\u10A1\u109C\u10A8\u109C\u10A6\u109E": {
+        "FixedDeop": "Deobf_GameModeSnowBrawl"
+      },
+      "\u10A5\u10A5\u10A3\u10A4\u109E\u109F\u109C\u1099\u109F\u10A3\u10A7": {
+        "FixedDeop": "Deobf_GameModeStandoff"
+      },
+      "\u109F\u10A8\u10A5\u10A8\u10A0\u10A0\u10A5\u109F\u10A6\u10A3\u10A4": {
+        "FixedDeop": "GameModeTag"
+      },
+      "\u109D\u109C\u109F\u10A3\u10A5\u10A4\u10A6\u109C\u109E\u10A2\u109E": {
+        "FixedDeop": "GameModeTileDrive"
+      },
+      "\u10A7\u10A6\u10A0\u10A7\u109C\u10A6\u10A2\u10A8\u109F\u109F\u10A8": {
+        "FixedDeop": "BulletPrefab"
+      },
+      "\u10A8\u10A8\u109C\u109A\u109A\u10A7\u1099\u10A5\u109D\u10A7\u109F": {
+        "FixedDeop": "IInteract"
+      },
+      "\u10A2\u10A1\u1099\u10A3\u10A3\u10A7\u10A6\u109F\u109D\u109E\u10A1": {
+        "FixedDeop": "IInteractPrompt"
+      },
+      "\u109B\u109D\u1099\u109B\u10A0\u10A2\u10A3\u10A7\u10A3\u109A\u10A6": {
+        "FixedDeop": "IInteractUp"
+      },
+      "\u109D\u10A0\u10A4\u109D\u10A4\u109D\u1099\u10A8\u10A0\u109C\u109D": {
+        "FixedDeop": "LobbyReadyInteract"
+      },
+      "\u1099\u109D\u10A6\u10A5\u109D\u109A\u10A2\u10A1\u1099\u10A5\u10A7": {
+        "FixedDeop": "GlassBreak"
+      },
+      "\u1099\u10A5\u109B\u10A0\u109C\u109F\u10A3\u1099\u10A2\u10A7\u109C": {
+        "FixedDeop": "Money"
+      },
+      "\u10A7\u10A5\u10A0\u1099\u10A0\u109D\u10A6\u10A0\u10A0\u10A8\u109D": {
+        "FixedDeop": "MoveInteract"
+      },
+      "\u10A0\u109D\u109C\u109C\u10A7\u10A1\u10A0\u10A6\u109B\u10A3\u10A6": {
+        "FixedDeop": "StationInteract"
+      },
+      "\u109F\u10A8\u109E\u109B\u10A0\u109E\u10A7\u109A\u10A8\u10A6\u109D": {
+        "FixedDeop": "ItemAmmo"
+      },
+      "\u10A4\u109C\u10A0\u109C\u10A7\u10A1\u10A3\u10A0\u10A0\u10A2\u10A5": {
+        "FixedDeop": "ItemGun"
+      },
+      "\u109E\u10A0\u10A1\u109D\u109E\u109E\u109B\u10A4\u1099\u1099\u109C": {
+        "FixedDeop": "ItemMelee"
+      },
+      "\u109B\u109D\u109C\u10A5\u109E\u109D\u109B\u10A0\u10A5\u109C\u10A1": {
+        "FixedDeop": "ItemOther"
+      },
+      "\u10A0\u10A7\u10A2\u10A8\u109E\u109B\u10A3\u109F\u109B\u1099\u10A0": {
+        "FixedDeop": "ItemPrefab"
+      },
+      "\u109D\u10A3\u109D\u1099\u10A7\u10A4\u109B\u10A1\u10A0\u10A7\u10A5": {
+        "FixedDeop": "ItemThrowable"
+      },
+      "\u10A8\u109B\u109D\u109D\u109F\u109D\u10A6\u10A2\u10A5\u10A2\u109A": {
+        "FixedDeop": "SpawnZone"
+      },
+      "\u109F\u1099\u109B\u10A2\u10A0\u109C\u10A8\u109B\u109E\u10A8\u1099": {
+        "FixedDeop": "SpawnZoneManager"
+      },
+      "\u10A3\u10A2\u10A8\u1099\u10A4\u1099\u10A3\u10A4\u109C\u10A1\u10A3": {
+        "FixedDeop": "GameLoop"
+      },
+      "\u10A1\u10A0\u10A1\u109E\u10A5\u10A1\u109D\u10A8\u10A5\u1099\u109A": {
+        "FixedDeop": "GameManager"
+      },
+      "\u109F\u10A2\u10A8\u10A1\u10A6\u1099\u10A0\u109D\u109C\u10A3\u10A2": {
+        "FixedDeop": "ItemManager"
+      },
+      "\u10A8\u109D\u109C\u10A3\u10A3\u109F\u1099\u109A\u109B\u109C\u10A8": {
+        "FixedDeop": "MainManager"
+      },
+      "\u109F\u109D\u10A4\u10A7\u10A2\u10A1\u109B\u109B\u109C\u109F\u10A3": {
+        "FixedDeop": "GameSettings"
+      },
+      "\u10A3\u10A5\u109E\u10A6\u109A\u109B\u10A7\u10A7\u109D\u109B\u109C": {
+        "FixedDeop": "LoadingScreen"
+      },
+      "\u109B\u10A2\u10A4\u10A6\u109D\u10A3\u109C\u1099\u109D\u109C\u10A4": {
+        "FixedDeop": "LobbyManager"
+      },
+      "\u109D\u10A5\u10A3\u10A8\u10A5\u10A5\u10A4\u10A0\u109D\u10A3\u10A8": {
+        "FixedDeop": "MapSelection"
+      },
+      "\u10A3\u10A3\u109D\u109F\u109A\u10A4\u10A2\u109A\u10A2\u1099\u10A7": {
+        "FixedDeop": "MenuUI"
+      },
+      "\u109C\u10A8\u109A\u10A8\u10A4\u10A5\u109C\u10A8\u10A7\u109D\u10A6": {
+        "FixedDeop": "SerevrUIPrefab"
+      },
+      "\u10A0\u109F\u10A3\u10A7\u109C\u10A1\u10A5\u109A\u10A0\u10A0\u10A5": {
+        "FixedDeop": "ServerList"
+      },
+      "\u10A1\u109F\u10A5\u10A8\u10A0\u10A5\u109B\u10A8\u10A4\u10A3\u1099": {
+        "FixedDeop": "HeaderScalingUI"
+      },
+      "\u109F\u109F\u109F\u109E\u109B\u10A8\u1099\u10A8\u10A7\u10A3\u10A2": {
+        "FixedDeop": "MapBtn"
+      },
+      "\u109A\u10A8\u1099\u10A7\u10A7\u10A4\u109A\u1099\u10A4\u10A8\u10A8": {
+        "FixedDeop": "VersionUI"
+      },
+      "\u1099\u10A6\u109F\u10A8\u109C\u10A6\u10A8\u10A7\u109B\u1099\u10A4": {
+        "FixedDeop": "Client"
+      },
+      "\u1099\u10A7\u10A5\u109A\u109B\u10A0\u10A2\u10A2\u10A5\u10A7\u109A": {
+        "FixedDeop": "ClientHandle"
+      },
+      "\u109D\u10A8\u10A0\u109B\u109B\u10A0\u109C\u109C\u10A6\u109A\u10A7": {
+        "FixedDeop": "ClientSend"
+      },
+      "\u1099\u109B\u10A1\u109E\u10A3\u109F\u10A6\u109A\u109B\u10A2\u10A3": {
+        "FixedDeop": "GameState"
+      },
+      "\u109A\u109F\u10A4\u109B\u10A7\u1099\u10A1\u10A5\u109D\u1099\u109E": {
+        "FixedDeop": "PhysicsObject"
+      },
+      "\u10A7\u109F\u10A6\u109E\u109E\u109A\u10A3\u109A\u10A4\u109E\u10A1": {
+        "FixedDeop": "SharedObject"
+      },
+      "\u109C\u10A2\u109F\u10A4\u109B\u1099\u10A3\u1099\u10A0\u10A4\u109A": {
+        "FixedDeop": "SharedObjectManager"
+      },
+      "\u109B\u109F\u10A3\u10A5\u1099\u10A3\u1099\u109D\u10A8\u109F\u109B": {
+        "FixedDeop": "OnlinePlayerMovement"
+      },
+      "\u10A5\u109A\u109E\u109E\u1099\u10A8\u10A8\u109A\u109D\u109F\u109C": {
+        "FixedDeop": "PlayerManager"
+      },
+      "\u10A4\u10A4\u10A0\u10A7\u109D\u109C\u10A1\u109A\u10A8\u10A2\u10A6": {
+        "FixedDeop": "PlayerServerCommunication"
+      },
+      "\u10A7\u109E\u10A8\u10A3\u10A3\u109D\u1099\u10A7\u10A2\u10A6\u109D": {
+        "FixedDeop": "NetworkingConstants"
+      },
+      "\u10A0\u10A7\u109E\u109C\u10A0\u109B\u1099\u10A4\u10A4\u10A4\u109B": {
+        "FixedDeop": "ServerPackets"
+      },
+      "\u10A5\u10A5\u10A6\u109A\u109A\u109C\u10A8\u109B\u1099\u1099\u10A0": {
+        "FixedDeop": "ClientPackets"
+      },
+      "\u10A5\u109C\u10A4\u1099\u10A0\u10A3\u109B\u109D\u10A4\u10A6\u109D": {
+        "FixedDeop": "Packet"
+      },
+      "\u109D\u109F\u10A6\u109F\u10A7\u109C\u109B\u10A3\u109F\u109A\u10A5": {
+        "FixedDeop": "PlayerInfo"
+      },
+      "\u109E\u109E\u10A4\u1099\u109C\u109C\u109D\u10A6\u10A6\u109A\u109D": {
+        "FixedDeop": "ServerConfig"
+      },
+      "\u1099\u10A5\u109F\u10A8\u1099\u10A4\u10A4\u109D\u109D\u10A1\u10A0": {
+        "FixedDeop": "ServerHandle"
+      },
+      "\u10A0\u10A8\u10A0\u10A4\u10A8\u10A0\u109A\u10A5\u10A7\u10A7\u109C": {
+        "FixedDeop": "ServerSend"
+      },
+      "\u10A7\u109F\u109A\u109D\u10A4\u10A1\u109D\u10A7\u10A7\u109D\u10A6": {
+        "FixedDeop": "SteamPacketManager"
+      },
+      "\u109E\u10A2\u10A4\u10A5\u109F\u10A0\u109A\u10A6\u10A5\u109A\u1099": {
+        "FixedDeop": "DestroyObject"
+      },
+      "\u109C\u10A1\u109A\u10A6\u109B\u10A0\u10A5\u10A5\u109F\u10A0\u109A": {
+        "FixedDeop": "CombatUtility"
+      },
+      "\u10A0\u10A5\u10A6\u10A8\u109F\u10A0\u10A2\u109F\u109C\u109C\u1099": {
+        "FixedDeop": "Deobf_CustomPositiveRandom"
+      },
+      "\u109B\u1099\u109A\u10A3\u109D\u109A\u109F\u10A0\u10A7\u109E\u1099": {
+        "FixedDeop": "Deobf_CosmeticItemUtils"
+      },
+      "\u10A0\u109C\u10A7\u1099\u1099\u10A3\u10A3\u10A4\u109F\u10A5\u10A2": {
+        "FixedDeop": "Deobf_MeshGenerationFrom2dGridHelper"
+      },
+      "\u109A\u10A4\u109F\u10A8\u10A2\u10A7\u10A4\u1099\u10A6\u10A4\u109D": {
+        "FixedDeop": "Deobf_MeshGeneratedFrom2dGrid"
+      },
+      "\u109B\u109A\u109E\u109C\u10A1\u109A\u109C\u109D\u109A\u10A7\u10A5": {
+        "FixedDeop": "Deobf_GenerateMeshFromGrid"
+      },
+      "\u109E\u10A4\u10A6\u10A3\u109A\u109A\u10A0\u10A5\u10A4\u109A\u10A4": {
+        "FixedDeop": "Deobf_GenerateMeshFromQuad"
+      },
+      "\u109E\u109C\u109F\u10A4\u10A8\u10A6\u10A6\u10A0\u109E\u109C\u10A3": {
+        "FixedDeop": "Deobf_GenerateWeirdMesh"
+      },
+      "\u109A\u10A0\u109A\u109D\u10A6\u10A7\u10A3\u109C\u10A0\u109E\u109B": {
+        "FixedDeop": "Deobf_DeathFromAboveVoxelRendererHelper"
+      },
+      "\u10A7\u10A1\u10A6\u10A1\u10A8\u10A5\u10A4\u109D\u109D\u109A\u109D": {
+        "FixedDeop": "Deobf_Direction"
+      },
+      "\u10A4\u109C\u10A7\u10A8\u10A6\u109A\u10A8\u10A5\u109E\u10A0\u10A8": {
+        "FixedDeop": "Deobf_DeathFromAboveVoxelRenderer"
+      },
+      "\u109C\u109D\u10A7\u10A6\u109B\u10A4\u109F\u10A7\u10A8\u10A2\u109A": {
+        "FixedDeop": "Deobf_GenerateWeirdMeshYValue"
+      },
+      "\u10A1\u109C\u10A5\u10A3\u10A3\u109F\u10A8\u109B\u1099\u109C\u10A1": {
+        "FixedDeop": "ListExtensions"
+      },
+      "\u109C\u109F\u1099\u1099\u10A6\u10A1\u10A5\u10A4\u109B\u10A2\u109A": {
+        "FixedDeop": "MyTimer"
+      },
+      "\u109F\u109C\u1099\u109A\u109E\u10A5\u10A4\u109A\u10A6\u109A\u10A1": {
+        "FixedDeop": "PacketUtility"
+      },
+      "\u109B\u109C\u10A5\u109E\u109A\u109A\u109B\u109A\u109B\u10A5\u10A3": {
+        "FixedDeop": "PlayerCustomization"
+      },
+      "\u109D\u109A\u10A0\u109E\u109E\u10A7\u10A6\u10A4\u10A6\u10A2\u109F": {
+        "FixedDeop": "PlayerInformation"
+      },
+      "\u10A8\u10A5\u10A6\u10A6\u10A6\u10A8\u10A4\u10A3\u109B\u10A3\u10A7": {
+        "FixedDeop": "RaycastExtensions"
+      },
+      "\u109D\u109F\u109C\u109F\u10A7\u109D\u10A8\u109E\u10A7\u1099\u109D": {
+        "FixedDeop": "TextureUtility"
+      },
+      "\u10A6\u10A1\u10A3\u10A0\u109C\u10A3\u109E\u10A4\u109A\u1099\u109C": {
+        "FixedDeop": "VectorExtensions"
+      },
+      "\u1099\u109F\u109D\u109E\u109B\u109D\u109E\u10A4\u10A8\u10A6\u10A2": {
+        "FixedDeop": "CameraRecoil"
+      },
+      "\u1099\u10A3\u109D\u109F\u109A\u10A4\u109B\u109B\u10A8\u10A6\u109B": {
+        "FixedDeop": "DetectItems"
+      },
+      "\u10A0\u10A1\u109E\u10A7\u10A6\u10A7\u109E\u10A5\u109D\u109B\u10A0": {
+        "FixedDeop": "Gun"
+      },
+      "\u109F\u109F\u1099\u10A1\u10A1\u10A8\u109F\u109C\u109F\u10A2\u1099": {
+        "FixedDeop": "ItemHandle"
+      },
+      "\u10A8\u1099\u1099\u1099\u10A4\u10A4\u10A8\u109D\u109A\u10A4\u10A5": {
+        "FixedDeop": "PlayerInventory"
+      },
+      "\u1099\u1099\u109A\u10A8\u109C\u10A4\u109F\u10A8\u10A8\u10A1\u109E": {
+        "FixedDeop": "MakeRagdoll"
+      },
+      "\u10A7\u10A2\u10A6\u10A2\u10A6\u10A5\u10A6\u1099\u109F\u109A\u109D": {
+        "FixedDeop": "CameraShaker"
+      },
+      "\u10A7\u109A\u10A2\u10A1\u10A6\u10A1\u10A3\u1099\u10A2\u109E\u10A1": {
+        "FixedDeop": "FootStep"
+      },
+      "\u10A2\u10A3\u109B\u109A\u10A6\u109E\u10A3\u10A3\u10A6\u1099\u109F": {
+        "FixedDeop": "MoveCamera"
+      },
+      "\u10A2\u109A\u1099\u10A6\u10A3\u1099\u109D\u109F\u109E\u10A2\u109B": {
+        "FixedDeop": "PlayerMovement"
+      },
+      "\u109E\u10A1\u109F\u109B\u109C\u10A4\u10A5\u10A4\u10A1\u109D\u109E": {
+        "FixedDeop": "SmokeLeg"
+      },
+      "\u1099\u10A3\u10A4\u10A3\u10A0\u10A3\u10A4\u109B\u109B\u10A5\u109A": {
+        "FixedDeop": "StartPlayer"
+      },
+      "\u109F\u10A2\u109B\u109F\u10A3\u10A2\u109E\u10A7\u10A6\u10A7\u10A7": {
+        "FixedDeop": "PlayerEyes"
+      },
+      "\u109C\u10A6\u109D\u109A\u1099\u109B\u10A8\u10A6\u1099\u10A2\u10A1": {
+        "FixedDeop": "PlayerRagdoll"
+      },
+      "\u10A5\u10A0\u10A4\u10A1\u109B\u1099\u10A4\u10A0\u10A2\u109E\u10A4": {
+        "FixedDeop": "PlayerStatus"
+      },
+      "\u10A6\u109D\u109F\u10A6\u10A4\u109F\u10A7\u10A4\u1099\u109F\u109E": {
+        "FixedDeop": "ControlSetting"
+      },
+      "\u109B\u10A2\u109E\u109C\u10A1\u109F\u10A7\u109A\u109A\u109B\u10A3": {
+        "FixedDeop": "KeyListener"
+      },
+      "\u10A0\u10A8\u109F\u10A3\u109F\u109E\u1099\u10A0\u10A4\u10A2\u10A3": {
+        "FixedDeop": "MyBoolSetting"
+      },
+      "\u10A0\u10A6\u109A\u10A1\u10A5\u10A2\u109E\u10A4\u10A7\u1099\u109C": {
+        "FixedDeop": "PPController"
+      },
+      "\u10A1\u10A1\u10A8\u109C\u109F\u109E\u10A2\u109D\u10A4\u10A1\u109A": {
+        "FixedDeop": "ResolutionSetting"
+      },
+      "\u10A5\u109F\u10A5\u10A8\u109E\u10A3\u10A0\u10A7\u10A2\u109A\u1099": {
+        "FixedDeop": "ScrollSettings"
+      },
+      "\u109C\u10A4\u10A5\u109E\u10A2\u10A1\u10A0\u10A2\u10A3\u109D\u10A6": {
+        "FixedDeop": "Setting"
+      },
+      "\u109D\u10A8\u109A\u10A3\u109A\u10A8\u109A\u109B\u10A7\u109D\u109C": {
+        "FixedDeop": "Settings"
+      },
+      "\u109F\u109E\u10A2\u109E\u109D\u10A0\u10A7\u10A4\u109B\u10A1\u10A4": {
+        "FixedDeop": "SliderSetting"
+      },
+      "\u10A7\u1099\u10A8\u10A7\u10A2\u10A1\u10A4\u109A\u109F\u10A7\u10A7": {
+        "FixedDeop": "TopNavigate"
+      },
+      "\u10A0\u10A1\u109D\u109A\u10A6\u10A4\u109D\u10A4\u109E\u10A6\u109C": {
+        "FixedDeop": "WorkshopUtility"
+      },
+      "\u10A1\u10A4\u10A0\u10A3\u10A4\u10A2\u109B\u10A3\u109D\u10A8\u10A4": {
+        "FixedDeop": "GeometryGrassPainter"
+      },
+      "\u10A2\u10A6\u10A0\u10A8\u1099\u109F\u1099\u109A\u10A4\u10A4\u10A2": {
+        "FixedDeop": "ButtonSfx"
+      },
+      "\u10A6\u109A\u10A8\u10A7\u109C\u109C\u109A\u10A3\u109F\u109A\u109F": {
+        "FixedDeop": "Crosshair"
+      },
+      "\u10A5\u109A\u10A1\u10A2\u109B\u109D\u109B\u10A1\u109F\u109D\u10A8": {
+        "FixedDeop": "DebugNet"
+      },
+      "\u1099\u10A5\u10A7\u109D\u10A3\u109D\u10A3\u109E\u10A6\u109C\u10A3": {
+        "FixedDeop": "DebugSharedObjects"
+      },
+      "\u109F\u10A3\u10A3\u10A1\u10A8\u10A3\u10A7\u109A\u109C\u109A\u10A5": {
+        "FixedDeop": "DisplayNameUI"
+      },
+      "\u10A6\u10A1\u10A0\u10A1\u10A7\u10A7\u109D\u109B\u10A0\u109A\u109D": {
+        "FixedDeop": "EscapeUI"
+      },
+      "\u1099\u10A7\u109E\u109B\u10A5\u109E\u10A6\u10A8\u109C\u109A\u10A2": {
+        "FixedDeop": "InventoryUI"
+      },
+      "\u109F\u10A3\u10A1\u10A5\u109E\u10A3\u109D\u10A5\u10A1\u10A3\u109D": {
+        "FixedDeop": "ItemSlotUI"
+      },
+      "\u10A6\u1099\u10A3\u10A1\u10A1\u10A6\u109E\u10A6\u109B\u1099\u10A6": {
+        "FixedDeop": "KeepTextUpright"
+      },
+      "\u10A5\u109E\u109B\u109D\u10A1\u10A0\u10A4\u109B\u10A1\u10A6\u109E": {
+        "FixedDeop": "LookAtPlayer"
+      },
+      "\u10A5\u10A5\u10A4\u10A0\u10A1\u109D\u109C\u109F\u109D\u1099\u10A4": {
+        "FixedDeop": "RevealPlayerNames"
+      },
+      "\u109F\u1099\u10A3\u10A0\u109D\u10A2\u109F\u10A5\u109E\u10A4\u10A1": {
+        "FixedDeop": "Deobf_ScrollingGroundController"
+      },
+      "\u10A6\u10A7\u10A8\u109E\u109B\u109D\u10A7\u10A7\u10A6\u10A5\u1099": {
+        "FixedDeop": "Deobf_GameUiPausePracticeMapSelection"
+      },
+      "\u10A5\u109F\u10A4\u109E\u109D\u109F\u109F\u109E\u109D\u10A6\u10A2": {
+        "FixedDeop": "ServerClock"
+      },
+      "\u10A0\u109D\u109C\u109C\u1099\u109A\u109A\u10A5\u10A0\u109B\u109F": {
+        "FixedDeop": "Deobf_CrateOpeningSfx"
+      },
+      "\u1099\u10A1\u10A7\u109A\u109C\u109A\u109C\u10A3\u109E\u10A7\u10A7": {
+        "FixedDeop": "EnableDepthBuffer"
+      },
+      "\u109B\u109A\u109A\u10A5\u109E\u109D\u10A0\u109D\u109D\u10A5\u10A5": {
+        "FixedDeop": "Deobf_CrabFightCrabAttackShake"
+      },
+      "\u10A6\u10A8\u1099\u10A2\u10A3\u10A8\u10A3\u1099\u10A8\u109C\u10A0": {
+        "FixedDeop": "Deobf_CrabFightCrabShockwaveAttack"
+      },
+      "\u109F\u10A8\u109B\u109B\u109F\u109A\u10A5\u1099\u10A6\u10A2\u109D": {
+        "FixedDeop": "ShopItemPrefab"
+      },
+      "\u109E\u10A4\u10A7\u10A3\u10A4\u10A1\u10A4\u109D\u109C\u10A8\u109B": {
+        "FixedDeop": "ShopWindow"
+      },
+      "\u1099\u10A3\u109C\u10A6\u10A0\u10A2\u109E\u10A2\u109E\u109B\u1099": {
+        "FixedDeop": "Deobf_SnowballPile"
+      },
+      "\u109D\u10A4\u109E\u109C\u10A8\u1099\u109A\u10A0\u10A2\u10A6\u10A3": {
+        "FixedDeop": "Deobf_MenuUiCreateLobbySpeedrun"
+      },
+      "\u10A6\u10A2\u10A0\u10A2\u10A2\u109A\u109E\u10A1\u10A4\u10A6\u10A6": {
+        "FixedDeop": "Deobf_MenuUiRecycleItemDisplaySpin"
+      },
+      "\u1099\u10A8\u10A0\u109A\u10A1\u10A7\u10A3\u109C\u10A6\u109F\u109B": {
+        "FixedDeop": "Deobf_MenuPlayerDragToSpin"
+      },
+      "\u10A7\u10A8\u109C\u10A2\u109B\u109B\u10A3\u1099\u109D\u1099\u10A3": {
+        "FixedDeop": "StageController"
+      },
+      "\u109C\u10A8\u10A5\u10A3\u109B\u109B\u10A8\u1099\u10A7\u10A8\u109A": {
+        "FixedDeop": "StageForceField"
+      },
+      "\u10A1\u10A8\u10A3\u10A1\u1099\u10A1\u10A6\u10A1\u10A3\u10A2\u10A5": {
+        "FixedDeop": "Deobf_StandoffScoreboard"
+      },
+      "\u10A1\u10A2\u10A5\u10A0\u109E\u10A2\u10A1\u109F\u10A6\u1099\u1099": {
+        "FixedDeop": "Deobf_GameUiStatusTopRightStandoffUI"
+      },
+      "\u10A8\u10A4\u10A3\u109C\u109D\u10A1\u109D\u10A6\u10A5\u109E\u1099": {
+        "FixedDeop": "Deobf_GameUiStandoffVignette"
+      },
+      "\u109E\u109E\u10A7\u10A3\u109E\u109F\u10A6\u10A0\u1099\u109C\u10A1": {
+        "FixedDeop": "StationUI"
+      },
+      "\u10A7\u109E\u10A8\u109B\u109B\u10A2\u109E\u10A6\u10A4\u10A4\u10A6": {
+        "FixedDeop": "StatusUI"
+      },
+      "\u109A\u10A0\u10A6\u109B\u10A2\u10A5\u109A\u10A1\u10A2\u109C\u10A8": {
+        "FixedDeop": "Unknown_MonoBehaviourPublicVo3"
+      },
+      "\u10A0\u10A4\u10A8\u10A1\u10A8\u109A\u10A8\u10A1\u109E\u1099\u109F": {
+        "FixedDeop": "SteamManager"
+      },
+      "\u10A4\u10A6\u10A5\u10A4\u1099\u10A4\u109D\u109A\u10A4\u109A\u109E": {
+        "FixedDeop": "SussyBaka"
+      },
+      "\u109A\u109E\u10A5\u10A3\u10A0\u10A5\u10A4\u10A6\u109C\u109C\u10A1": {
+        "FixedDeop": "TabNavigate"
+      },
+      "\u1099\u109C\u1099\u10A5\u109A\u10A4\u109D\u10A3\u10A1\u10A8\u1099": {
+        "FixedDeop": "Deobf_DodgeballSpawnManager"
+      },
+      "\u10A4\u10A0\u109B\u10A2\u1099\u10A7\u1099\u10A5\u10A0\u109C\u10A7": {
+        "FixedDeop": "OnlineSpectator"
+      },
+      "\u10A8\u10A7\u109C\u10A1\u10A1\u10A3\u109E\u109C\u10A1\u10A3\u10A5": {
+        "FixedDeop": "Deobf_CenterMesh"
+      },
+      "\u1099\u10A3\u109D\u109C\u109E\u10A2\u10A0\u10A8\u10A8\u109D\u10A0": {
+        "FixedDeop": "TestFakePlayers"
+      },
+      "\u109B\u10A4\u109E\u10A0\u10A8\u10A3\u1099\u109B\u109E\u10A6\u10A7": {
+        "FixedDeop": "TestLobby"
+      },
+      "\u10A1\u10A0\u109B\u10A6\u10A7\u109E\u10A7\u10A0\u10A8\u109F\u10A8": {
+        "FixedDeop": "TestModeMaps"
+      },
+      "\u109C\u10A4\u10A8\u10A5\u10A4\u10A7\u10A0\u10A8\u109C\u10A1\u10A1": {
+        "FixedDeop": "TestPackets"
+      },
+      "\u10A4\u10A0\u109A\u109E\u109F\u10A2\u10A6\u1099\u109C\u109F\u109B": {
+        "FixedDeop": "TestRagdolls"
+      },
+      "\u109A\u10A3\u109E\u109E\u109D\u109F\u10A4\u10A6\u109D\u109F\u109D": {
+        "FixedDeop": "TestRocks"
+      },
+      "\u109E\u10A3\u109D\u109F\u10A3\u109D\u109A\u10A8\u109E\u10A1\u10A3": {
+        "FixedDeop": "TestSpin"
+      },
+      "\u10A5\u10A3\u1099\u10A5\u10A5\u109B\u10A5\u10A4\u10A1\u10A3\u109C": {
+        "FixedDeop": "TestStuff"
+      },
+      "\u10A6\u109D\u109B\u10A4\u109C\u10A8\u10A5\u10A3\u10A6\u109B\u10A6": {
+        "FixedDeop": "Outline"
+      },
+      "\u10A6\u10A6\u109B\u10A6\u10A4\u109E\u10A1\u10A3\u109F\u10A4\u109B": {
+        "FixedDeop": "TransparencyCaptureToFile"
+      },
+      "\u109F\u109A\u10A6\u109E\u1099\u109E\u10A3\u10A5\u109E\u10A4\u1099": {
+        "FixedDeop": "zzTransparencyCapture"
+      },
+      "\u10A0\u109C\u109E\u109D\u10A5\u10A4\u10A1\u109A\u109B\u109B\u109C": {
+        "FixedDeop": "Deobf_ThrownSnowball"
+      },
+      "\u109B\u109A\u10A0\u109B\u10A4\u109D\u10A0\u10A2\u1099\u10A2\u109F": {
+        "FixedDeop": "Tile"
+      },
+      "\u109C\u109F\u109D\u109B\u10A8\u10A1\u10A6\u10A7\u10A5\u109C\u1099": {
+        "FixedDeop": "TileDriveUI"
+      },
+      "\u10A2\u10A1\u10A2\u10A4\u109B\u109C\u10A6\u109F\u10A1\u10A5\u109D": {
+        "FixedDeop": "TileManager"
+      },
+      "\u109A\u10A3\u10A3\u109F\u10A3\u10A5\u1099\u10A4\u10A2\u1099\u109B": {
+        "FixedDeop": "Timer"
+      },
+      "\u10A2\u109A\u109F\u1099\u10A4\u10A3\u109D\u10A3\u109F\u109D\u10A7": {
+        "FixedDeop": "TntManager"
+      },
+      "\u109C\u109E\u109B\u10A6\u10A1\u10A4\u109F\u10A5\u109D\u10A3\u109F": {
+        "FixedDeop": "TopRightStatusUi"
+      },
+      "\u10A4\u109A\u109A\u10A2\u10A2\u109E\u1099\u109A\u10A4\u109D\u10A6": {
+        "FixedDeop": "Deobf_DeleteOnScrollingGroundContact"
+      },
+      "\u10A7\u1099\u10A6\u10A8\u10A5\u10A8\u10A3\u109C\u109D\u10A1\u10A5": {
+        "FixedDeop": "Deobf_ScrollingGroundCollider"
+      },
+      "\u109F\u10A5\u109A\u10A3\u10A6\u109E\u109A\u109B\u10A3\u10A7\u10A7": {
+        "FixedDeop": "Transition"
+      },
+      "\u10A4\u10A6\u10A1\u109D\u10A7\u10A3\u10A0\u109F\u10A3\u109E\u109D": {
+        "FixedDeop": "Unknown_MonoBehaviourPublicVoStVoVoVoVoVoVoVoVo3"
+      },
+      "\u10A5\u10A4\u10A0\u10A1\u1099\u109A\u109E\u109F\u109C\u109E\u10A5": {
+        "FixedDeop": "UiBtn"
+      },
+      "\u109A\u10A5\u109A\u10A7\u10A6\u109A\u10A7\u1099\u10A7\u10A1\u1099": {
+        "FixedDeop": "UiLookAtPlayer"
+      },
+      "\u10A0\u109D\u10A1\u10A7\u10A1\u109A\u109E\u109D\u109D\u10A1\u10A3": {
+        "FixedDeop": "VignetteController"
+      },
+      "\u10A4\u109E\u10A7\u109E\u10A1\u109F\u10A5\u1099\u109A\u109B\u1099": {
+        "FixedDeop": "VoiceChatTransform"
+      },
+      "\u109A\u109F\u109D\u109A\u10A0\u109E\u10A6\u10A8\u10A6\u109A\u109C": {
+        "FixedDeop": "WaitingCountdown"
+      },
+      "\u10A5\u109C\u10A1\u109B\u10A7\u10A7\u109C\u109F\u10A0\u10A1\u109F": {
+        "FixedDeop": "WaterSplash"
+      },
+      "\u109E\u10A2\u10A3\u109A\u10A6\u109B\u109F\u109F\u10A8\u1099\u109E": {
+        "FixedDeop": "WinManager"
+      },
+      "\u1099\u109E\u10A3\u10A7\u10A5\u109C\u1099\u109E\u10A5\u109D\u10A3": {
+        "FixedDeop": "ZoomThumbnail"
+      },
+      "\u109D\u10A8\u109D\u10A2\u109D\u10A6\u10A8\u10A2\u109F\u109C\u10A2": {
+        "FixedDeop": "Deobf_WordAllowlist"
+      },
+      "\u10A2\u109B\u1099\u109A\u1099\u109F\u109B\u10A4\u109A\u109B\u109A": {
+        "FixedDeop": "Deobf_ProfanityDetectorBase"
+      },
+      "\u10A7\u10A6\u109D\u10A1\u1099\u109C\u10A4\u109A\u10A0\u109D\u10A1": {
+        "FixedDeop": "Deobf_ProfanityDetector"
+      },
+      "\u109E\u109B\u10A6\u109F\u10A3\u10A1\u109D\u109D\u10A8\u10A7\u10A8": {
+        "FixedDeop": "Deobf_IWordAllowlist"
+      },
+      "\u109A\u10A6\u109C\u109A\u109A\u10A6\u10A2\u10A2\u10A0\u10A5\u1099": {
+        "FixedDeop": "Deobf_IProfanityDetector"
+      },
+      "\u109D\u109C\u10A6\u109F\u10A7\u10A4\u10A7\u109A\u10A1\u109B\u10A5": {
+        "FixedDeop": "_DitzelGames_FastIK__FastIKFabric"
+      },
+      "\u109B\u10A8\u10A2\u10A3\u10A3\u10A0\u109B\u10A7\u10A5\u10A0\u109D": {
+        "FixedDeop": "_DitzelGames_FastIK__FastIKLook"
+      },
+      "\u10A4\u1099\u109E\u10A2\u109E\u10A5\u10A2\u109C\u109B\u109F\u10A2": {
+        "FixedDeop": "_DitzelGames_FastIK__SampleProceduralAnimation"
+      },
+      "\u109D\u10A6\u10A4\u10A5\u10A1\u109E\u109B\u109F\u109E\u10A1\u109F": {
+        "FixedDeop": "_DitzelGames_FastIK__SampleRotator"
+      },
+      "\u109B\u10A5\u109E\u10A0\u109A\u10A8\u10A4\u10A3\u10A3\u109A\u10A7": {
+        "FixedDeop": "_DitzelGames_FastIK__SampleSinMover"
+      },
+      "\u10A0\u10A1\u10A6\u10A6\u109B\u10A0\u109D\u10A6\u10A4\u10A5\u109C": {
+        "FixedDeop": "Dissonance_SteamworksP2PClient"
+      },
+      "\u10A2\u109D\u10A0\u109B\u109A\u109A\u10A8\u10A0\u109B\u10A5\u1099": {
+        "FixedDeop": "_Dissonance_SteamworksP2PCommsNetwork"
+      },
+      "\u109D\u109E\u10A6\u10A3\u109D\u109D\u109B\u109E\u10A0\u10A0\u109A": {
+        "FixedDeop": "_Dissonance_SteamworksP2PServer"
+      },
+      "\u10A8\u109C\u10A4\u109A\u109F\u10A2\u10A7\u109D\u10A2\u1099\u1099": {
+        "FixedDeop": "_Dissonance_Demo__SteamworksDemoPlayer"
+      },
+      "\u109B\u10A8\u109C\u109F\u10A2\u109F\u109B\u10A6\u10A2\u10A3\u10A5": {
+        "FixedDeop": "_Dissonance_Demo_SteamworksDemoPlayerManager"
+      },
+      "\u109B\u109F\u109F\u10A1\u10A3\u10A6\u10A4\u10A5\u10A4\u10A4\u109A": {
+        "FixedDeop": "_Dissonance_Demo_SteamworksDemoUi"
+      },
+      "\u10A1\u109D\u10A0\u109B\u10A1\u1099\u1099\u10A7\u10A1\u1099\u1099": {
+        "FixedDeop": "_Dissonance_Demo_SteamworksPlayerController"
+      },
+      "\u109E\u10A4\u109D\u1099\u1099\u1099\u10A7\u10A2\u109E\u10A0\u10A1": {
+        "FixedDeop": "Deobf_GeneralUiShadowMeshModifier"
+      },
+      "\u109A\u10A1\u10A2\u109F\u10A0\u109E\u1099\u10A3\u10A3\u10A1\u109F": {
+        "FixedDeop": "Deobf_GeneralUiBaseMeshEffectModifier"
+      },
+      "\u10A2\u109F\u10A7\u10A6\u109C\u10A1\u10A0\u10A2\u10A1\u10A3\u10A1": {
+        "FixedDeop": "Deobf_StringDeobfuscator"
+      }
+    }
+  }
+}

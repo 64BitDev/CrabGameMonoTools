@@ -17,8 +17,7 @@ namespace CrabGameDeopTools
     internal class Program
     {
         static uint ArrayIntoMap = 0;
-
-
+        static JsonDocument? DeopFile;
         static void Main(string[] args)
         {
             Console.WriteLine("Crab Game Assembly Mapping Tools v1.0.0");
@@ -28,7 +27,7 @@ namespace CrabGameDeopTools
             {
                 ArrayIntoMap = 0;
                 
-                switch (ConsoleUtils.SelectOptionFromArray("Tool:", "Tool", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm", "Add listing to new Map to a crab game map, this is for modifing maps "))
+                switch (ConsoleUtils.SelectOptionFromArray("Tool:", "Tool", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm", "Add listing to new Map to a crab game map, this is for modifing maps"))
                 {
                     case 1:
                         CreateBasicCrabGameMacMonoToCrabGameWinMono();
@@ -40,13 +39,17 @@ namespace CrabGameDeopTools
             }
 
         }
-
+        
         static void CreateBasicCrabGameMacMonoToCrabGameWinMono()
         {
 
             string CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:", "CrabGameMacPath");
             string CrabGameWinPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Win Directory:", "CrabGameWinPath");
             string OutputPath = ConsoleUtils.GetSafeStringFromConsole("Output Folder:", "OutputPath");
+            if(ConsoleUtils.GetSafeYesNoQuestion("Use Deop File:","UseDeopFile"))
+            {
+                DeopFile = JsonDocument.Parse(File.ReadAllText(ConsoleUtils.GetSafeStringFromConsole("Deop File:", "DeopFilePath")));
+            }
 
             string ga = Path.Combine(CrabGameWinPath, "GameAssembly.dll");
             string meta = Path.Combine(
@@ -172,16 +175,32 @@ namespace CrabGameDeopTools
                 w.WriteStartObject();
                 w.WriteString("Mac", macType.Name);
                 w.WriteString("Windows", winType.Name);
-                if(!UsesOnlyAscii(winType.Name))
+                string FixedDeop = string.Empty;
+                if (!UsesOnlyAscii(winType.Name))
                 {
-                    w.WriteString("FixedDeop", UIntToFixedString(ArrayIntoMap, System.Math.Min(Encoding.UTF8.GetByteCount(winType.Name),8)));
-                    
+                    FixedDeop = UIntToFixedString(ArrayIntoMap, System.Math.Min(Encoding.UTF8.GetByteCount(winType.Name), 8));
+
                 }
                 else
                 {
-                    w.WriteString("FixedDeop", winType.Name);
+                    FixedDeop = winType.Name;
                 }
-                
+                if (DeopFile is not null)
+                {
+                    if (DeopFile.RootElement.TryGetProperty(WinDll.Name.Name, out var asm))
+                    {
+                        if (asm.TryGetProperty(winType.Namespace, out var ns))
+                        {
+
+                            if (ns.TryGetProperty(winType.FullName, out var cls))
+                            {
+                                Console.WriteLine("dododoodoo");
+                                FixedDeop = CutToByteLength(cls.GetProperty("FixedDeop").GetString()!, Encoding.UTF8.GetByteCount(winType.Name));
+                            }
+                        }
+                    }
+                }
+                w.WriteString("FixedDeop",FixedDeop);
                 w.WriteEndObject();
                 w.WriteEndObject();
                 w.Flush();
@@ -198,6 +217,28 @@ namespace CrabGameDeopTools
                 return s;
             }
         }
+
+        static string CutToByteLength(string input, int maxBytes)
+        {
+            if (maxBytes <= 0 || string.IsNullOrEmpty(input))
+                return string.Empty;
+
+            Encoding utf8 = Encoding.UTF8;
+
+            byte[] bytes = utf8.GetBytes(input);
+
+            if (bytes.Length <= maxBytes)
+                return input;
+
+            // Walk backwards until valid UTF-8 boundary
+            int cut = maxBytes;
+
+            while (cut > 0 && (bytes[cut] & 0b1100_0000) == 0b1000_0000)
+                cut--;
+
+            return utf8.GetString(bytes, 0, cut);
+        }
+
         static string UIntToFixedString(uint value, int totalWidth)
         {
             const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
