@@ -8,6 +8,7 @@ using Mono.Cecil;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -15,23 +16,30 @@ namespace CrabGameDeopTools
 {
     internal class Program
     {
+        static uint ArrayIntoMap = 0;
+
+
         static void Main(string[] args)
         {
             Console.WriteLine("Crab Game Assembly Mapping Tools v1.0.0");
             Console.WriteLine("By 64bitdev");
             ConsoleUtils.SetupConsoleUtils();
-            switch (ConsoleUtils.SelectOptionFromArray("Tool:","Tool", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm"))
+            while(true)
             {
-                case 1:
-                    CreateBasicCrabGameMacMonoToCrabGameWinMono();
-                    break;
-                case 2:
-                    ConvertExtractedCrabGameDeopToAJsonEncodedCrabGameMap();
-                    break;
+                ArrayIntoMap = 0;
+                
+                switch (ConsoleUtils.SelectOptionFromArray("Tool:", "Tool", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm", "Add listing to new Map to a crab game map, this is for modifing maps "))
+                {
+                    case 1:
+                        CreateBasicCrabGameMacMonoToCrabGameWinMono();
+                        break;
+                    case 2:
+                        ConvertExtractedCrabGameDeopToAJsonEncodedCrabGameMap();
+                        break;
+                }
             }
 
         }
-
 
         static void CreateBasicCrabGameMacMonoToCrabGameWinMono()
         {
@@ -119,13 +127,6 @@ namespace CrabGameDeopTools
 
 
         }
-
-        static void AddListingToCrabGameMap()
-        {
-
-        }
-        static uint ArrayIntoMap = 0;
-         
         static void CreateBasicCrabGameMacToWinDllMap(AssemblyDefinition MacDll, AssemblyDefinition WinDll, string OutputPath)
         {
             Directory.CreateDirectory(@$"{OutputPath}\{MacDll.Name.Name}");
@@ -265,12 +266,6 @@ namespace CrabGameDeopTools
             }
             JECGMWritor.WriteEndObject(); // root
             JECGMWritor.Flush();
-        }
-
-
-        static void ConvertExtractedCrabGameMapToABinaryEncodedCrabGameMap()
-        {
-
         }
     }
 }
