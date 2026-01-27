@@ -123,12 +123,13 @@ namespace Crab_Game_Mono_Creator
                         {
                             if (cls.Value.TryGetProperty(MapToName, out var MapNameProperty))
                             {
-                                string find = cls.Value.GetProperty("Windows").GetString()!;
-                                string replace = MapNameProperty.GetString()!;
+                                byte[] find = StringToUnityString(cls.Value.GetProperty("Windows").GetString()!);
+                                byte[] replace = StringToUnityString(MapNameProperty.GetString()!,find.Length);
+                                
                                 patterns.Add(new ReplacePattern
                                 {
-                                    Find = StringToUnityString(find),
-                                    Replace = StringToUnityString(replace)
+                                    Find = find,
+                                    Replace = replace
                                 });
                             }
                         }
@@ -171,7 +172,21 @@ namespace Crab_Game_Mono_Creator
             return result;
         }
 
+        static byte[] StringToUnityString(string value, int leng)
+        {
+            if (leng <= 0)
+                throw new ArgumentOutOfRangeException(nameof(leng));
 
+            byte[] utf8 = System.Text.Encoding.UTF8.GetBytes(value);
+            byte[] result = new byte[leng];
+
+            int copyLen = Math.Min(utf8.Length, leng - 1); // leave room for null
+            Buffer.BlockCopy(utf8, 0, result, 0, copyLen);
+
+            result[copyLen] = 0x00; // null terminator (always valid)
+
+            return result;
+        }
         static byte[] ReplaceAll(byte[] data, Dictionary<byte, ReplacePattern[]> table)
         {
             List<byte> output = new List<byte>(data.Length);

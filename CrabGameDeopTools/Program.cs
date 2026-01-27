@@ -120,10 +120,9 @@ namespace CrabGameDeopTools
 
         }
 
-        static void CreateDummyListingToCrabGameMap()
+        static void AddListingToCrabGameMap()
         {
-            string ExtractedCrabGameMapDir = ConsoleUtils.GetSafeStringFromConsole("Extracted Crab Game Map Dir:", "MapDir");
-            int DummyListingType = ConsoleUtils.SelectOptionFromArray("Dummy Map Type:","DummyMapType","Fixed Size Dummy Map");
+
         }
         static uint ArrayIntoMap = 0;
          
@@ -174,7 +173,7 @@ namespace CrabGameDeopTools
                 w.WriteString("Windows", winType.Name);
                 if(!UsesOnlyAscii(winType.Name))
                 {
-                    w.WriteString("FixedDeop", UIntToFixedString(ArrayIntoMap, Encoding.UTF8.GetByteCount(winType.Name)));
+                    w.WriteString("FixedDeop", UIntToFixedString(ArrayIntoMap, System.Math.Min(Encoding.UTF8.GetByteCount(winType.Name),8)));
                     
                 }
                 else
