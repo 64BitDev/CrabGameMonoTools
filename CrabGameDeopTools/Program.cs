@@ -166,7 +166,6 @@ namespace CrabGameDeopTools
 
                 using var fs = File.Create(outFile);
                 using var w = new Utf8JsonWriter(fs, new JsonWriterOptions { Indented = true });
-                if(macType.Name == winType.Name)
                 ArrayIntoMap++;
                 w.WriteStartObject();
                 w.WritePropertyName("ObjectMaps");
