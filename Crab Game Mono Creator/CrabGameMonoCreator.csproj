@@ -85,6 +85,9 @@
   <None Update="MonoFiles\UnityPlayer.dll">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
+  <None Update="readme.md">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
   <None Update="THIRD_PARTY_NOTICES.md">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </None>

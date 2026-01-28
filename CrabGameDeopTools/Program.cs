@@ -1,17 +1,8 @@
 ﻿using Cpp2IL.Core;
-using Cpp2IL.Core.Analysis.Actions.x86.Important;
-using HarmonyLib;
 using LibCpp2IL;
-using LibCpp2IL.BinaryStructures;
-using LibCpp2IL.Reflection;
 using Mono.Cecil;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 namespace CrabGameDeopTools
 {
     internal class Program
@@ -23,10 +14,10 @@ namespace CrabGameDeopTools
             Console.WriteLine("Crab Game Assembly Mapping Tools v1.0.0");
             Console.WriteLine("By 64bitdev");
             ConsoleUtils.SetupConsoleUtils();
-            while(true)
+            while (true)
             {
                 ArrayIntoMap = 0;
-                
+
                 switch (ConsoleUtils.SelectOptionFromArray("Tool:", "Tool", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm", "Add listing to new Map to a crab game map, this is for modifing maps"))
                 {
                     case 1:
@@ -39,14 +30,14 @@ namespace CrabGameDeopTools
             }
 
         }
-        
+
         static void CreateBasicCrabGameMacMonoToCrabGameWinMono()
         {
 
             string CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:", "CrabGameMacPath");
             string CrabGameWinPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Win Directory:", "CrabGameWinPath");
             string OutputPath = ConsoleUtils.GetSafeStringFromConsole("Output Folder:", "OutputPath");
-            if(ConsoleUtils.GetSafeYesNoQuestion("Use Deop File:","UseDeopFile"))
+            if (ConsoleUtils.GetSafeYesNoQuestion("Use Deop File:", "UseDeopFile"))
             {
                 DeopFile = JsonDocument.Parse(File.ReadAllText(ConsoleUtils.GetSafeStringFromConsole("Deop File:", "DeopFilePath")));
             }
@@ -60,7 +51,7 @@ namespace CrabGameDeopTools
                 "global-metadata.dat"
             );
 
-            if (!LibCpp2IlMain.LoadFromFile(ga, meta, new int[]{ 2020, 3, 21 }))
+            if (!LibCpp2IlMain.LoadFromFile(ga, meta, new int[] { 2020, 3, 21 }))
             {
                 Console.WriteLine("ill2cpp Lib failed to process crab game please check your paths");
                 return;
@@ -138,7 +129,7 @@ namespace CrabGameDeopTools
             var winTop = WinDll.MainModule.Types;
 
             int topCount = Math.Min(macTop.Count, winTop.Count);
-            
+
 
             for (int i = 0; i < topCount; i++)
             {
@@ -155,8 +146,8 @@ namespace CrabGameDeopTools
                     MapTypeRecursive(macType.NestedTypes[i], winType.NestedTypes[i]);
                 }
             }
-            
-            
+
+
             void WriteTypeMap(TypeDefinition macType, TypeDefinition winType)
             {
                 string objNamespace = string.IsNullOrEmpty(macType.Namespace) ? "Global" : macType.Namespace;
@@ -200,7 +191,7 @@ namespace CrabGameDeopTools
                         }
                     }
                 }
-                w.WriteString("FixedDeop",FixedDeop);
+                w.WriteString("FixedDeop", FixedDeop);
                 w.WriteEndObject();
                 w.WriteEndObject();
                 w.Flush();
@@ -271,7 +262,7 @@ namespace CrabGameDeopTools
         }
         static void ConvertExtractedCrabGameDeopToAJsonEncodedCrabGameMap()
         {
-            string extractDir = ConsoleUtils.GetSafeStringFromConsole("Extracted Crab Game Map Dir:","OutputMapDir");
+            string extractDir = ConsoleUtils.GetSafeStringFromConsole("Extracted Crab Game Map Dir:", "OutputMapDir");
             string outPath = new DirectoryInfo(extractDir).Name + ".jecgm";
 
             using var JECGMStream = File.Create(outPath);

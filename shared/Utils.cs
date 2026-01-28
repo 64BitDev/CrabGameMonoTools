@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Mono.Cecil;
 using System.Text.Json;
-using Mono.Cecil;
 public static class ConsoleUtils
 {
     static JsonDocument? jsonSettings;
     public static void SetupConsoleUtils()
     {
-        if(File.Exists("JsonSettings.json"))
+        if (File.Exists("JsonSettings.json"))
         {
             jsonSettings = JsonDocument.Parse(File.ReadAllText("JsonSettings.json"));
         }
     }
-    public static int GetSafeIntFromConsole(string Name,string guid)
+    public static int GetSafeIntFromConsole(string Name, string guid)
     {
-        if(jsonSettings is not null)
+        if (jsonSettings is not null)
         {
-            if(jsonSettings.RootElement.TryGetProperty(guid, out var jsonvalue))
+            if (jsonSettings.RootElement.TryGetProperty(guid, out var jsonvalue))
             {
                 return jsonvalue.GetInt32();
             }
@@ -37,7 +34,7 @@ public static class ConsoleUtils
     }
 
 
-    public static bool GetSafeYesNoQuestion(string Name,string guid)
+    public static bool GetSafeYesNoQuestion(string Name, string guid)
     {
         Console.WriteLine("Yes or No");
         if (jsonSettings is not null)
@@ -50,16 +47,16 @@ public static class ConsoleUtils
         while (true)
         {
             string value = GetSafeStringFromConsole(Name, guid).ToLower();
-            if(value == "y" || value == "yes" || value == "1" || value == "true")
+            if (value == "y" || value == "yes" || value == "1" || value == "true")
             {
                 return true;
             }
-            else if(value == "n" || value == "no" || value == "0" || value == "false") 
+            else if (value == "n" || value == "no" || value == "0" || value == "false")
             {
                 return false;
             }
         }
-        
+
     }
 
     public static string GetSafeStringFromConsole(string Name, string guid)
@@ -83,14 +80,14 @@ public static class ConsoleUtils
         }
     }
 
-    public static int SelectOptionFromArray(string Name,string guid, params string[] Options)
+    public static int SelectOptionFromArray(string Name, string guid, params string[] Options)
     {
         Console.WriteLine($"Select one of the following");
         for (int i = 0; i < Options.Length; i++)
         {
             Console.WriteLine($"{i + 1}. {Options[i]}");
         }
-        return GetSafeIntFromConsole(Name,guid);
+        return GetSafeIntFromConsole(Name, guid);
 
     }
 

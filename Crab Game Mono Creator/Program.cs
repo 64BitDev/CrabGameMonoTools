@@ -1,6 +1,4 @@
 ﻿using Mono.Cecil;
-using System;
-using System.IO;
 using System.Text.Json;
 namespace Crab_Game_Mono_Creator
 {
@@ -23,7 +21,7 @@ namespace Crab_Game_Mono_Creator
             //see if we have cgmonomap.jecgm
             if (!File.Exists("cgmonomap.jecgm"))
             {
-                int TypeOfDownload = ConsoleUtils.SelectOptionFromArray("We could not find cgmonomap.jecgm please provide a replacment using one of the following:", "automaticlydownloadmap", "Download from 64BitDev/CrabGameMappings ","Use Local File");
+                int TypeOfDownload = ConsoleUtils.SelectOptionFromArray("We could not find cgmonomap.jecgm please provide a replacment using one of the following:", "automaticlydownloadmap", "Download from 64BitDev/CrabGameMappings ", "Use Local File");
                 switch (TypeOfDownload)
                 {
                     case 1:
@@ -49,16 +47,20 @@ namespace Crab_Game_Mono_Creator
                             break;
                         }
                     case 2:
-                        crabgamemap = JsonDocument.Parse(File.ReadAllText(ConsoleUtils.GetSafeStringFromConsole("cgmonomap dir:","CrabGameMonoMapPath")));
+                        crabgamemap = JsonDocument.Parse(File.ReadAllText(ConsoleUtils.GetSafeStringFromConsole("cgmonomap dir:", "CrabGameMonoMapPath")));
                         break;
                 }
             }
             else
             {
-                crabgamemap  = JsonDocument.Parse(File.ReadAllText("cgmonomap.jecgm"));
+                crabgamemap = JsonDocument.Parse(File.ReadAllText("cgmonomap.jecgm"));
             }
 
-                CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:", "CrabGameMacPath");
+            CrabGameMacPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mac Directory:", "CrabGameMacPath");
+            if (Directory.Exists(Path.Combine(CrabGameMacPath, "Crab Game.app")))
+            {
+                CrabGameMacPath = Path.Combine(CrabGameMacPath, "Crab Game.app");
+            }
             CrabGameWinPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Win Directory:", "CrabGameWinPath");
             OutputPath = ConsoleUtils.GetSafeStringFromConsole("Crab Game Mono Output Directory:", "OutputPath");
 
@@ -86,12 +88,31 @@ namespace Crab_Game_Mono_Creator
             "Data",
             "Managed"
             );
-            Console.WriteLine($"Starting to patch Managed Assemblys");
+            Console.WriteLine($"Patching Managed Asm");
             Directory.CreateDirectory(Path.Combine(OutputPath, "Crab Game_Data", "Managed"));
             //get all of the dlls that this maps
             foreach (var file in Directory.GetFiles(CrabGameMacManagedDir))
             {
+                #if RELEASE
+                try
+                
+                {
+                #endif
                 RewriteAsmWithMap(file, crabgamemap);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"{Path.GetFileName(file)} success");
+                Console.ForegroundColor = ConsoleColor.White;
+#if RELEASE
+                }
+                catch (Exception e)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"{Path.GetFileName(file)} failed with error");
+                    Console.WriteLine(e.ToString());
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+#endif
+
             }
 
             Console.WriteLine($"Done Writing Asms");
@@ -124,8 +145,8 @@ namespace Crab_Game_Mono_Creator
                             if (cls.Value.TryGetProperty(MapToName, out var MapNameProperty))
                             {
                                 byte[] find = StringToUnityString(cls.Value.GetProperty("Windows").GetString()!);
-                                byte[] replace = StringToUnityString(MapNameProperty.GetString()!,find.Length);
-                                
+                                byte[] replace = StringToUnityString(MapNameProperty.GetString()!, find.Length);
+
                                 patterns.Add(new ReplacePattern
                                 {
                                     Find = find,
@@ -240,7 +261,7 @@ namespace Crab_Game_Mono_Creator
         {
 
             var filename = Path.GetFileName(file);
-            Console.WriteLine($"Trying to patch {filename}");
+            Console.WriteLine($"Started Patching {filename}");
             if (filename.StartsWith("Unity") || filename.StartsWith("System") || filename.StartsWith("mscorlib") || filename.StartsWith("Mono"))
             {
                 File.Copy(file, Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)), true);

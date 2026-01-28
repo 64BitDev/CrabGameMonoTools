@@ -1,15 +1,11 @@
 ﻿using Mono.Cecil;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Crab_Game_Mono_Creator
 {
     public static class LocalUtils
     {
-        public static void FixExternalRefs(TypeDefinition t, JsonDocument crabgamemap,AssemblyDefinition macAsm)
+        public static void FixExternalRefs(TypeDefinition t, JsonDocument crabgamemap, AssemblyDefinition macAsm)
         {
             FixTypeRef(t.BaseType, crabgamemap);
 
@@ -92,7 +88,7 @@ namespace Crab_Game_Mono_Creator
         }
 
 
-        static void FixTypeRef(TypeReference tr,JsonDocument crabgamemap)
+        static void FixTypeRef(TypeReference tr, JsonDocument crabgamemap)
         {
             if (tr == null)
                 return;
