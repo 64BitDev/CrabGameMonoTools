@@ -185,7 +185,6 @@ namespace CrabGameDeopTools
 
                             if (ns.TryGetProperty(winType.FullName, out var cls))
                             {
-                                Console.WriteLine("dododoodoo");
                                 FixedDeop = CutToByteLength(cls.GetProperty("FixedDeop").GetString()!, Encoding.UTF8.GetByteCount(winType.Name));
                             }
                         }
@@ -215,19 +214,23 @@ namespace CrabGameDeopTools
                 return string.Empty;
 
             Encoding utf8 = Encoding.UTF8;
-
             byte[] bytes = utf8.GetBytes(input);
 
             if (bytes.Length <= maxBytes)
                 return input;
 
-            // Walk backwards until valid UTF-8 boundary
             int cut = maxBytes;
 
+            // Walk backwards until valid UTF-8 boundary
             while (cut > 0 && (bytes[cut] & 0b1100_0000) == 0b1000_0000)
                 cut--;
 
-            return utf8.GetString(bytes, 0, cut);
+            string result = utf8.GetString(bytes, 0, cut);
+
+            // Print ONLY when truncation happens
+            Console.WriteLine($"'{input}' was cut to '{result}' Please fix");
+
+            return result;
         }
 
         static string UIntToFixedString(uint value, int totalWidth)

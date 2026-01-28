@@ -21,5 +21,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties deopmap_1json__JsonSchema="Dissonance_Demo" /></VisualStudio></ProjectExtensions>
   
 </Project>
