@@ -115,6 +115,7 @@ namespace CrabGameDeopTools
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"{dummydlls[i].Name.Name} Failed");
                         Console.ForegroundColor = ConsoleColor.White;
+                        throw;
                     }
                 }
             }
@@ -153,19 +154,7 @@ namespace CrabGameDeopTools
                 string objNamespace = string.IsNullOrEmpty(macType.Namespace) ? "Global" : macType.Namespace;
                 string nsDir = Path.Combine(OutputPath, MacDll.Name.Name, objNamespace);
                 Directory.CreateDirectory(nsDir);
-
-                // Use FullName so nested types are unique, then sanitize for filename
-                string safeName = MakeSafeFileName(macType.FullName) + ".json";
-                string outFile = Path.Combine(nsDir, safeName);
-
-                using var fs = File.Create(outFile);
-                using var w = new Utf8JsonWriter(fs, new JsonWriterOptions { Indented = true });
                 ArrayIntoMap++;
-                w.WriteStartObject();
-                w.WritePropertyName("ObjectMaps");
-                w.WriteStartObject();
-                w.WriteString("Mac", macType.Name);
-                w.WriteString("Windows", winType.Name);
                 string FixedDeop = string.Empty;
                 if (!UsesOnlyAscii(winType.Name))
                 {
@@ -190,7 +179,57 @@ namespace CrabGameDeopTools
                         }
                     }
                 }
+                // Use FullName so nested types are unique, then sanitize for filename
+                string safeName = MakeSafeFileName(FixedDeop) + ".json";
+                string outFile = Path.Combine(nsDir, safeName);
+
+                using var fs = File.Create(outFile);
+                using var w = new Utf8JsonWriter(fs, new JsonWriterOptions { Indented = true });
+
+                w.WriteStartObject();
+                w.WritePropertyName("ObjectMaps");
+                w.WriteStartObject();
+                w.WriteString("Mac", macType.Name);
+                w.WriteString("Windows", winType.Name);
+
                 w.WriteString("FixedDeop", FixedDeop);
+                w.WriteEndObject();
+
+                w.WritePropertyName("FieldMaps");
+                w.WriteStartObject();
+                uint IndexintoField = 0;
+                foreach (var Field in macType.Fields)
+                {
+                    
+                    if (!UsesOnlyAscii(Field.Name))
+                    {
+                        IndexintoField++;
+                        string DeopName = UIntToFixedString(IndexintoField, 8);
+                        w.WritePropertyName(DeopName);
+                        w.WriteStartObject();
+                        w.WriteString("Mac",Field.Name);
+                        w.WriteString("FixedDeop",DeopName);
+                        w.WriteEndObject();
+                    }
+                }
+                w.WriteEndObject();
+                w.WritePropertyName("MethodMaps");
+                w.WriteStartObject();
+                foreach (var Method in macType.Methods)
+                {
+                    
+                    
+                    if (!UsesOnlyAscii(Method.Name))
+                    {
+                        IndexintoField++;
+                        string DeopName = UIntToFixedString(IndexintoField, 8);
+                        w.WritePropertyName(DeopName);
+                        w.WriteStartObject();
+                        w.WriteString("Mac", Method.Name);
+                        w.WriteString("FixedDeop", DeopName);
+                        w.WriteEndObject();
+                    }
+                }
                 w.WriteEndObject();
                 w.WriteEndObject();
                 w.Flush();
