@@ -197,14 +197,13 @@ namespace CrabGameDeopTools
 
                 w.WritePropertyName("FieldMaps");
                 w.WriteStartObject();
-                uint IndexintoField = 0;
                 foreach (var Field in macType.Fields)
                 {
                     
                     if (!UsesOnlyAscii(Field.Name))
                     {
-                        IndexintoField++;
-                        string DeopName = UIntToFixedString(IndexintoField, 8);
+                        ArrayIntoMap++;
+                        string DeopName = UIntToFixedString(ArrayIntoMap, 8);
                         w.WritePropertyName(DeopName);
                         w.WriteStartObject();
                         w.WriteString("Mac",Field.Name);
@@ -221,8 +220,8 @@ namespace CrabGameDeopTools
                     
                     if (!UsesOnlyAscii(Method.Name))
                     {
-                        IndexintoField++;
-                        string DeopName = UIntToFixedString(IndexintoField, 8);
+                        ArrayIntoMap++;
+                        string DeopName = UIntToFixedString(ArrayIntoMap, 8);
                         w.WritePropertyName(DeopName);
                         w.WriteStartObject();
                         w.WriteString("Mac", Method.Name);

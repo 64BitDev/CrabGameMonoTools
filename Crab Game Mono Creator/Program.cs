@@ -267,6 +267,7 @@ namespace Crab_Game_Mono_Creator
                 return;
             }
             AssemblyDefinition macAsm = AssemblyDefinition.ReadAssembly(file);
+            LocalUtils.FixFieldRefsInIl(macAsm,crabgamemap);
             var TypesInMacMainModule = AsmUtils.GetAllTypeDefinitions(macAsm.MainModule);
             foreach (var type in TypesInMacMainModule)
             {
@@ -284,6 +285,7 @@ namespace Crab_Game_Mono_Creator
                             {
                                 string Windows = mappedtype.Value.GetProperty("ObjectMaps").GetProperty(MapToName).GetString()!;
                                 type.Name = Windows;
+                                
                                 break;
                             }
                         }
@@ -295,11 +297,34 @@ namespace Crab_Game_Mono_Creator
             }
             foreach (var t in TypesInMacMainModule)
             {
-                LocalUtils.FixExternalRefs(t, crabgamemap, macAsm);
+                if(LocalUtils.TryGetTypeObject(t,macAsm.Name.Name,MapToName,crabgamemap,out var mod))
+                {
+                    FixFields(t, mod);
+                }
+                
+                LocalUtils.FixTypeRefs(t, crabgamemap, macAsm);
             }
 
 
             macAsm.Write(Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)));
+        }
+
+        public static void FixFields(TypeDefinition type, JsonProperty mappedtype)
+        {
+            JsonElement FieldTable = mappedtype.Value.GetProperty("FieldMaps");
+            Dictionary<string, string> mapField = new();
+            foreach(var MappedField in FieldTable.EnumerateObject())
+            {
+                mapField.Add(MappedField.Value.GetProperty("Mac").GetString()!, MappedField.Value.GetProperty(MapToName).GetString()!);
+            }           
+            foreach (var Field in type.Fields)
+            {
+               if(mapField.TryGetValue(Field.Name,out var outname))
+                {
+                    
+                    Field.Name  = outname;
+                }
+            }
         }
         /// <summary>
         /// this is one of the functions of all time
