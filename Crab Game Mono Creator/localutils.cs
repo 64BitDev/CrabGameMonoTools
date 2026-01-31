@@ -45,8 +45,6 @@ namespace Crab_Game_Mono_Creator
                             break;
 
                         case FieldReference fr:
-                            //try to change fieldRef
-                            FixFieldRef(fr, crabgamemap);
                             FixTypeRef(fr.DeclaringType, crabgamemap);
                             FixTypeRef(fr.FieldType, crabgamemap);
                             
@@ -92,8 +90,6 @@ namespace Crab_Game_Mono_Creator
         }
         static public void FixFieldRefsInIl(AssemblyDefinition asm, JsonDocument crabgamemap)
         {
-            // Cache: (asmName + ":" + deopFullTypeKey) -> (macFieldName -> newFieldName)
-            // You can replace the key with whatever your TryGetTypeObject is using internally.
             var fieldMapCache = new Dictionary<string, Dictionary<string, string>>();
 
             foreach (var t in AsmUtils.GetAllTypeDefinitions(asm.MainModule))
@@ -204,56 +200,6 @@ namespace Crab_Game_Mono_Creator
             map = dict;
             return true;
         }
-
-        static void FixFieldRef(FieldReference fr, JsonDocument crabgamemap)
-        {
-            Console.WriteLine($"[FIELD REF] {fr.DeclaringType.FullName}::{fr.Name}");
-
-            JsonProperty? classType = null;
-
-            // 1. Resolve owning class
-            foreach (var asm in crabgamemap.RootElement.EnumerateObject())
-            {
-                if (TryGetTypeObject(
-                        fr.DeclaringType,
-                        asm.Name,
-                        "Mac",
-                        crabgamemap,
-                        out var tType))
-                {
-                    classType = tType;
-                    break;
-                }
-            }
-
-            if (classType is null)
-                return;
-
-            // 2. Reverse lookup by FixedDeop name
-            if (!classType.Value.Value.TryGetProperty("FieldMaps", out var fieldMaps))
-                return;
-
-            foreach (var fieldEntry in fieldMaps.EnumerateObject())
-            {
-                // fieldEntry.Name == slot key (AAAAAAAB)
-                var fieldObj = fieldEntry.Value;
-
-                if (!fieldObj.TryGetProperty("FixedDeop", out var fixedName))
-                    continue;
-
-                if (fixedName.GetString() != fr.Name)
-                    continue;
-
-                // 3. Apply platform-specific rename
-                if (fieldObj.TryGetProperty(Program.MapToName, out var platformName))
-                {
-                    fr.Name = platformName.GetString()!;
-                }
-
-                return;
-            }
-        }
-
         static void FixTypeRef(TypeReference tr, JsonDocument crabgamemap)
         {
             if (tr == null)
