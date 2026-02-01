@@ -268,6 +268,7 @@ namespace Crab_Game_Mono_Creator
             }
             AssemblyDefinition macAsm = AssemblyDefinition.ReadAssembly(file);
             LocalUtils.FixFieldRefsInIl(macAsm,crabgamemap);
+            LocalUtils.FixMethodRefsInIl(macAsm, crabgamemap);
             var TypesInMacMainModule = AsmUtils.GetAllTypeDefinitions(macAsm.MainModule);
             foreach (var type in TypesInMacMainModule)
             {
@@ -300,6 +301,7 @@ namespace Crab_Game_Mono_Creator
                 if(LocalUtils.TryGetTypeObject(t,macAsm.Name.Name,MapToName,crabgamemap,out var mod))
                 {
                     FixFields(t, mod);
+                    FixMethods(t, mod);
                 }
                 
                 LocalUtils.FixTypeRefs(t, crabgamemap, macAsm);
@@ -329,6 +331,28 @@ namespace Crab_Game_Mono_Creator
                 }
             }
         }
+
+        public static void FixMethods(TypeDefinition type, JsonProperty mappedtype)
+        {
+            if (!mappedtype.Value.TryGetProperty("MethodMaps", out var MethodMaps))
+            {
+                return;
+            }
+            Dictionary<string, string> mapField = new();
+            foreach (var MappedField in MethodMaps.EnumerateObject())
+            {
+                mapField.Add(MappedField.Value.GetProperty("Mac").GetString()!, MappedField.Value.GetProperty(MapToName).GetString()!);
+            }
+            foreach (var Method in type.Methods)
+            {
+                if (mapField.TryGetValue(Method.Name, out var outname))
+                {
+
+                    Method.Name = outname;
+                }
+            }
+        }
+
         /// <summary>
         /// this is one of the functions of all time
         /// </summary>

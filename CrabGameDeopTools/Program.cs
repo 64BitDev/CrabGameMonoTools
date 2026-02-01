@@ -213,13 +213,30 @@ namespace CrabGameDeopTools
                 w.WriteEndObject();
                 w.WritePropertyName("MethodMaps");
                 w.WriteStartObject();
+                List<string> Names = new();
                 foreach (var Method in macType.Methods)
                 {
-                    
-                    
                     if (!UsesOnlyAscii(Method.Name))
                     {
                         ArrayIntoMap++;
+
+                        if (Names.Contains(Method.Name))
+                        {
+                            continue;
+                        }
+                        Names.Add(Method.Name);
+                        if (Method.IsVirtual)
+                        {
+                            continue;
+                        }
+                        if (Method.HasOverrides)
+                        {
+                            continue;
+                        }
+                        if (Method.IsUnmanaged || Method.IsUnmanagedExport)
+                        {
+                            continue;
+                        }
                         string DeopName = UIntToFixedString(ArrayIntoMap, 8);
                         w.WritePropertyName(DeopName);
                         w.WriteStartObject();

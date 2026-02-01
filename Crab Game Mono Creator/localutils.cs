@@ -200,6 +200,121 @@ namespace Crab_Game_Mono_Creator
             map = dict;
             return true;
         }
+
+        public static void FixMethodRefsInIl(
+    AssemblyDefinition asm,
+    JsonDocument crabgamemap)
+        {
+            // Cache: typeKey -> (macMethodName -> mappedName)
+            var methodMapCache = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (var type in AsmUtils.GetAllTypeDefinitions(asm.MainModule))
+            {
+                foreach (var method in type.Methods)
+                {
+                    if (!method.HasBody)
+                        continue;
+
+                    var il = method.Body.Instructions;
+
+                    for (int i = 0; i < il.Count; i++)
+                    {
+                        if (il[i].Operand is not MethodReference mr)
+                            continue;
+
+                        // unwrap GenericInstanceMethod
+                        if (mr is GenericInstanceMethod gim)
+                            mr = gim.ElementMethod;
+
+                        // never rename constructors
+                        if (mr.Name == ".ctor" || mr.Name == ".cctor")
+                            continue;
+
+                        // build or fetch rename table for declaring type
+                        if (!TryBuildMethodRenameTable(
+                                mr.DeclaringType,
+                                crabgamemap,
+                                methodMapCache,
+                                out var map))
+                            continue;
+
+                        // rename ONLY if explicitly mapped
+                        if (map.TryGetValue(mr.Name, out var newName))
+                        {
+                            mr.Name = newName;
+                        }
+                    }
+                }
+            }
+        }
+
+        static bool TryBuildMethodRenameTable(
+    TypeReference declaringType,
+    JsonDocument crabgamemap,
+    Dictionary<string, Dictionary<string, string>> cache,
+    out Dictionary<string, string> map)
+        {
+            map = null!;
+
+            // unwrap generic instance types
+            if (declaringType is GenericInstanceType git)
+                declaringType = git.ElementType;
+
+            JsonProperty? classType = null;
+
+            foreach (var asm in crabgamemap.RootElement.EnumerateObject())
+            {
+                if (LocalUtils.TryGetTypeObject(
+                        declaringType,
+                        asm.Name,
+                        "Mac",
+                        crabgamemap,
+                        out var tType))
+                {
+                    classType = tType;
+                    break;
+                }
+            }
+
+            if (classType is null)
+                return false;
+
+            // stable cache key
+            string cacheKey = classType.Value.Name + ":" + declaringType.FullName;
+
+            if (cache.TryGetValue(cacheKey, out map))
+                return true;
+
+            if (!classType.Value.Value.TryGetProperty("MethodMaps", out var methodMaps))
+                return false;
+
+            var dict = new Dictionary<string, string>(StringComparer.Ordinal);
+
+            foreach (var entry in methodMaps.EnumerateObject())
+            {
+                var obj = entry.Value;
+
+                if (!obj.TryGetProperty("Mac", out var macEl))
+                    continue;
+
+                if (!obj.TryGetProperty(Program.MapToName, out var targetEl))
+                    continue;
+
+                string? macName = macEl.GetString();
+                string? targetName = targetEl.GetString();
+
+                if (string.IsNullOrEmpty(macName) || string.IsNullOrEmpty(targetName))
+                    continue;
+
+                // allow overloads: same name is OK
+                if (!dict.ContainsKey(macName))
+                    dict.Add(macName, targetName);
+            }
+
+            cache[cacheKey] = dict;
+            map = dict;
+            return true;
+        }
         static void FixTypeRef(TypeReference tr, JsonDocument crabgamemap)
         {
             if (tr == null)
