@@ -10,13 +10,12 @@ namespace Crab_Game_Mono_Creator
         static string OutputPath;
         const string MonoFilesDir = "MonoFiles";
         public static string MapToName = "FixedDeop";
-        const string DefaultCGMapDownloadLoc = "https://raw.githubusercontent.com/64BitDev/CrabGameMappings/refs/heads/builds/CrabGameMappings_V1Compatable.jecgm";
+        const string DefaultCGMapDownloadLoc = "https://raw.githubusercontent.com/64BitDev/CrabGameMappings/refs/heads/builds/CrabGameMappings_V2Compatable.jecgm";
 
         static void Main(string[] args)
         {
             Console.WriteLine("=== Crab Game Mono Creator ===");
             Console.WriteLine("Created by 64bitdev");
-            Console.WriteLine(Main);
             ConsoleUtils.SetupConsoleUtils();
             JsonDocument crabgamemap = null;
             
