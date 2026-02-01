@@ -65,6 +65,10 @@ namespace CrabGameDeopTools
                 );
 
             var dummydlls = Cpp2IlApi.MakeDummyDLLs(); //this is were mostly everything happens
+            if(Directory.Exists(OutputPath))
+            {
+                Directory.Delete(OutputPath, true);
+            }
             Directory.CreateDirectory(OutputPath);
             using var AssemblyInfoStream = File.Create($"{OutputPath}\\CGMapInfo.json");
             using var AssemblyInfoWritor = new Utf8JsonWriter(AssemblyInfoStream, new JsonWriterOptions
@@ -230,10 +234,6 @@ namespace CrabGameDeopTools
                             continue;
                         }
                         if (Method.HasOverrides)
-                        {
-                            continue;
-                        }
-                        if (Method.IsUnmanaged || Method.IsUnmanagedExport || Method.IsRuntimeSpecialName || Method.IsSpecialName)
                         {
                             continue;
                         }
