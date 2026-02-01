@@ -179,7 +179,6 @@ namespace CrabGameDeopTools
                         }
                     }
                 }
-                // Use FullName so nested types are unique, then sanitize for filename
                 string safeName = MakeSafeFileName(FixedDeop) + ".json";
                 string outFile = Path.Combine(nsDir, safeName);
 

@@ -311,7 +311,10 @@ namespace Crab_Game_Mono_Creator
 
         public static void FixFields(TypeDefinition type, JsonProperty mappedtype)
         {
-            JsonElement FieldTable = mappedtype.Value.GetProperty("FieldMaps");
+            if(!mappedtype.Value.TryGetProperty("FieldMaps",out var FieldTable))
+            {
+                return;
+            }
             Dictionary<string, string> mapField = new();
             foreach(var MappedField in FieldTable.EnumerateObject())
             {
