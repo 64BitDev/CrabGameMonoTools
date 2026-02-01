@@ -233,11 +233,7 @@ namespace CrabGameDeopTools
                         {
                             continue;
                         }
-                        if (Method.IsUnmanaged || Method.IsUnmanagedExport || Method.IsRuntimeSpecialName || Method.IsSpecialName || Method.HasSecurity)
-                        {
-                            continue;
-                        }
-                        if(!Method.Module.Assembly.Name.Name.StartsWith("DissonanceVoip"))
+                        if (Method.IsUnmanaged || Method.IsUnmanagedExport || Method.IsRuntimeSpecialName || Method.IsSpecialName)
                         {
                             continue;
                         }

@@ -1,5 +1,6 @@
 ﻿using Mono.Cecil;
 using System.Text.Json;
+using Mono.Cecil.Cil;
 namespace Crab_Game_Mono_Creator
 {
     internal class Program
@@ -270,7 +271,7 @@ namespace Crab_Game_Mono_Creator
             AssemblyDefinition macAsm = AssemblyDefinition.ReadAssembly(file);
             LocalUtils.FixFieldRefsInIl(macAsm,crabgamemap);
             LocalUtils.FixMethodRefsInIl(macAsm, crabgamemap);
-            LocalUtils.FixStringMethodRefsInIl(macAsm,crabgamemap);
+            //LocalUtils.FixStringMethodRefsInIl(macAsm,crabgamemap);
             var TypesInMacMainModule = AsmUtils.GetAllTypeDefinitions(macAsm.MainModule);
             foreach (var type in TypesInMacMainModule)
             {
@@ -337,21 +338,73 @@ namespace Crab_Game_Mono_Creator
         public static void FixMethods(TypeDefinition type, JsonProperty mappedtype)
         {
             if (!mappedtype.Value.TryGetProperty("MethodMaps", out var MethodMaps))
-            {
                 return;
-            }
-            Dictionary<string, string> mapField = new();
-            foreach (var MappedField in MethodMaps.EnumerateObject())
-            {
-                mapField.Add(MappedField.Value.GetProperty("Mac").GetString()!, MappedField.Value.GetProperty(MapToName).GetString()!);
-            }
-            foreach (var Method in type.Methods)
-            {
-                if (mapField.TryGetValue(Method.Name, out var outname))
-                {
 
-                    Method.Name = outname;
+            Dictionary<string, string> mapMethod = new();
+            foreach (var m in MethodMaps.EnumerateObject())
+            {
+                mapMethod.Add(
+                    m.Value.GetProperty("Mac").GetString()!,
+                    m.Value.GetProperty(MapToName).GetString()!
+                );
+            }
+
+            var module = type.Module;
+
+            // ToArray to avoid modifying collection while iterating
+            foreach (var method in type.Methods.ToArray())
+            {
+                if (!mapMethod.TryGetValue(method.Name, out var newName))
+                    continue;
+
+                string oldName = method.Name;
+
+                // Rename original method
+                method.Name = newName;
+
+                // Create wrapper method under old name
+                var wrapper = new MethodDefinition(
+                  oldName,
+                  method.Attributes & ~(
+                      MethodAttributes.Abstract |
+                      MethodAttributes.PInvokeImpl
+                  ),
+                  method.ReturnType
+              );
+
+                // Copy parameters
+                foreach (var p in method.Parameters)
+                    wrapper.Parameters.Add(new ParameterDefinition(p.Name, p.Attributes, p.ParameterType));
+
+                wrapper.Body = new MethodBody(wrapper);
+                wrapper.Body.InitLocals = true;
+                var il = wrapper.Body.GetILProcessor();
+
+                int argIndex = 0;
+
+                // Load `this` if instance method
+                if (!method.IsStatic)
+                {
+                    il.Append(il.Create(OpCodes.Ldarg_0));
+                    argIndex = 1;
                 }
+
+                // Load parameters
+                foreach (var _ in wrapper.Parameters)
+                {
+                    il.Append(il.Create(OpCodes.Ldarg, argIndex));
+                    argIndex++;
+                }
+
+                // Call renamed method
+                il.Append(il.Create(
+                    method.IsVirtual ? OpCodes.Callvirt : OpCodes.Call,
+                    module.ImportReference(method)
+                ));
+
+                il.Append(il.Create(OpCodes.Ret));
+
+                type.Methods.Add(wrapper);
             }
         }
 
