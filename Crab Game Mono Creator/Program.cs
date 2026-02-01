@@ -15,6 +15,7 @@ namespace Crab_Game_Mono_Creator
         {
             Console.WriteLine("=== Crab Game Mono Creator ===");
             Console.WriteLine("Created by 64bitdev");
+            Console.WriteLine(Main);
             ConsoleUtils.SetupConsoleUtils();
             JsonDocument crabgamemap = null;
             
@@ -269,6 +270,7 @@ namespace Crab_Game_Mono_Creator
             AssemblyDefinition macAsm = AssemblyDefinition.ReadAssembly(file);
             LocalUtils.FixFieldRefsInIl(macAsm,crabgamemap);
             LocalUtils.FixMethodRefsInIl(macAsm, crabgamemap);
+            LocalUtils.FixStringMethodRefsInIl(macAsm,crabgamemap);
             var TypesInMacMainModule = AsmUtils.GetAllTypeDefinitions(macAsm.MainModule);
             foreach (var type in TypesInMacMainModule)
             {

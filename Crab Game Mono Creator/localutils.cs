@@ -200,7 +200,72 @@ namespace Crab_Game_Mono_Creator
             map = dict;
             return true;
         }
+        public static void FixStringMethodRefsInIl(
+    AssemblyDefinition asm,
+    JsonDocument crabgamemap)
+        {
+            // Build a GLOBAL lookup: MacName -> FixedDeopName
+            var globalMethodMap = new Dictionary<string, string>(StringComparer.Ordinal);
 
+            foreach (var asmEntry in crabgamemap.RootElement.EnumerateObject())
+            {
+                foreach (var nsEntry in asmEntry.Value.EnumerateObject())
+                {
+                    foreach (var typeEntry in nsEntry.Value.EnumerateObject())
+                    {
+                        if (!typeEntry.Value.TryGetProperty("MethodMaps", out var methodMaps))
+                            continue;
+
+                        foreach (var m in methodMaps.EnumerateObject())
+                        {
+                            var obj = m.Value;
+
+                            if (!obj.TryGetProperty("Mac", out var mac))
+                                continue;
+
+                            if (!obj.TryGetProperty(Program.MapToName, out var fixedDeop))
+                                continue;
+
+                            var macName = mac.GetString();
+                            var newName = fixedDeop.GetString();
+
+                            if (string.IsNullOrEmpty(macName) || string.IsNullOrEmpty(newName))
+                                continue;
+
+                            // Allow collisions — last one wins (you said this is OK)
+                            globalMethodMap[macName] = newName;
+                        }
+                    }
+                }
+            }
+
+            // Walk IL and patch ldstr
+            foreach (var type in AsmUtils.GetAllTypeDefinitions(asm.MainModule))
+            {
+                foreach (var method in type.Methods)
+                {
+                    if (!method.HasBody)
+                        continue;
+
+                    var il = method.Body.Instructions;
+                    for (int i = 0; i < il.Count; i++)
+                    {
+                        var ins = il[i];
+
+                        if (ins.OpCode != Mono.Cecil.Cil.OpCodes.Ldstr)
+                            continue;
+
+                        if (ins.Operand is not string s)
+                            continue;
+
+                        if (globalMethodMap.TryGetValue(s, out var newName))
+                        {
+                            ins.Operand = newName;
+                        }
+                    }
+                }
+            }
+        }
         public static void FixMethodRefsInIl(
     AssemblyDefinition asm,
     JsonDocument crabgamemap)
