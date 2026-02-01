@@ -231,7 +231,7 @@ namespace CrabGameDeopTools
                         Names.Add(Method.Name);
                         if (Method.IsVirtual)
                         {
-                            continue;
+                            //continue;
                         }
                         if (Method.HasOverrides)
                         {

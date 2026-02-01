@@ -270,7 +270,6 @@ namespace Crab_Game_Mono_Creator
             AssemblyDefinition macAsm = AssemblyDefinition.ReadAssembly(file);
             LocalUtils.FixFieldRefsInIl(macAsm,crabgamemap);
             LocalUtils.FixMethodRefsInIl(macAsm, crabgamemap);
-            //LocalUtils.FixStringMethodRefsInIl(macAsm,crabgamemap);
             var TypesInMacMainModule = AsmUtils.GetAllTypeDefinitions(macAsm.MainModule);
             foreach (var type in TypesInMacMainModule)
             {
@@ -303,7 +302,7 @@ namespace Crab_Game_Mono_Creator
                 if(LocalUtils.TryGetTypeObject(t,macAsm.Name.Name,MapToName,crabgamemap,out var mod))
                 {
                     FixFields(t, mod);
-                    FixMethods(t, mod);
+                    FixMethods(t, mod,crabgamemap);
                 }
                 
                 LocalUtils.FixTypeRefs(t, crabgamemap, macAsm);
@@ -334,26 +333,41 @@ namespace Crab_Game_Mono_Creator
             }
         }
 
-        public static void FixMethods(TypeDefinition type, JsonProperty mappedtype)
+        public static void FixMethods(
+            TypeDefinition type,
+            JsonProperty mappedtype,
+            JsonDocument crabgamemap)
         {
             if (!mappedtype.Value.TryGetProperty("MethodMaps", out var MethodMaps))
                 return;
 
+            // Build rename table once
             Dictionary<string, string> mapMethod = new();
             foreach (var m in MethodMaps.EnumerateObject())
             {
-                mapMethod.Add(
-                    m.Value.GetProperty("Mac").GetString()!,
-                    m.Value.GetProperty(MapToName).GetString()!
-                );
+                mapMethod[m.Value.GetProperty("Mac").GetString()!] =
+                    m.Value.GetProperty(MapToName).GetString()!;
             }
 
             var module = type.Module;
 
-            // ToArray to avoid modifying collection while iterating
             foreach (var method in type.Methods.ToArray())
             {
+                // Cannot generate bodies for these
+                if (method.IsAbstract || method.IsPInvokeImpl)
+                    continue;
+
+                // CRITICAL: never wrap open generics (AOT / gshared crash)
+                if (method.HasGenericParameters ||
+                    method.DeclaringType.HasGenericParameters)
+                    continue;
+
+                // Must be explicitly mapped
                 if (!mapMethod.TryGetValue(method.Name, out var newName))
+                    continue;
+
+                // Already renamed -> do nothing
+                if (method.Name == newName)
                     continue;
 
                 string oldName = method.Name;
@@ -361,27 +375,30 @@ namespace Crab_Game_Mono_Creator
                 // Rename original method
                 method.Name = newName;
 
-                // Create wrapper method under old name
+                // Create alias wrapper under old name
                 var wrapper = new MethodDefinition(
-                  oldName,
-                  method.Attributes & ~(
-                      MethodAttributes.Abstract |
-                      MethodAttributes.PInvokeImpl
-                  ),
-                  method.ReturnType
-              );
+                    oldName,
+                    method.Attributes & ~(
+                        MethodAttributes.Abstract |
+                        MethodAttributes.PInvokeImpl
+                    ),
+                    method.ReturnType
+                );
 
                 // Copy parameters
                 foreach (var p in method.Parameters)
-                    wrapper.Parameters.Add(new ParameterDefinition(p.Name, p.Attributes, p.ParameterType));
+                    wrapper.Parameters.Add(
+                        new ParameterDefinition(p.Name, p.Attributes, p.ParameterType));
 
+                // Force body
                 wrapper.Body = new MethodBody(wrapper);
                 wrapper.Body.InitLocals = true;
+
                 var il = wrapper.Body.GetILProcessor();
 
                 int argIndex = 0;
 
-                // Load `this` if instance method
+                // Load `this` for instance methods
                 if (!method.IsStatic)
                 {
                     il.Append(il.Create(OpCodes.Ldarg_0));
@@ -389,15 +406,15 @@ namespace Crab_Game_Mono_Creator
                 }
 
                 // Load parameters
-                foreach (var _ in wrapper.Parameters)
+                for (int i = 0; i < wrapper.Parameters.Count; i++)
                 {
                     il.Append(il.Create(OpCodes.Ldarg, argIndex));
                     argIndex++;
                 }
 
-                // Call renamed method
+                // IMPORTANT: always use CALL (avoid virtual recursion)
                 il.Append(il.Create(
-                    method.IsVirtual ? OpCodes.Callvirt : OpCodes.Call,
+                    OpCodes.Call,
                     module.ImportReference(method)
                 ));
 
@@ -406,6 +423,7 @@ namespace Crab_Game_Mono_Creator
                 type.Methods.Add(wrapper);
             }
         }
+
 
         /// <summary>
         /// this is one of the functions of all time
