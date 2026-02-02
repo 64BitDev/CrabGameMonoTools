@@ -255,7 +255,21 @@ namespace Crab_Game_Mono_Creator
             }
 
             return output.ToArray();
-        }   
+        }
+
+        //this is a colection of small tag checks to apply stuff
+        //removed everything from it due to me not being able to create makepublic and wrappers
+        static void DoTagsFromMappings(JsonProperty typeJson,TypeDefinition type)
+        {
+        }
+        static bool TryGetBool(JsonProperty JsonPro,string Name)
+        {
+            if(!JsonPro.Value.TryGetProperty(Name,out var BoolVal))
+            {
+                return false;
+            }
+            return BoolVal.GetBoolean();
+        }
         static void RewriteAsmWithMap(string file, JsonDocument crabgamemap)
         {
             
@@ -287,7 +301,7 @@ namespace Crab_Game_Mono_Creator
                             {
                                 string Windows = mappedtype.Value.GetProperty("ObjectMaps").GetProperty(MapToName).GetString()!;
                                 type.Name = Windows;
-                                
+                                DoTagsFromMappings(mappedtype, type);
                                 break;
                             }
                         }
