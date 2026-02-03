@@ -214,6 +214,51 @@ namespace CrabGameDeopTools
                         w.WriteEndObject();
                     }
                 }
+                foreach (var Property in macType.Properties)
+                {
+                    if (UsesOnlyAscii(Property.Name))
+                        continue;
+
+                    // -----------------------------
+                    // INLINE: skip interface implementations
+                    // -----------------------------
+                    if (!macType.IsInterface)
+                    {
+                        var get = Property.GetMethod;
+                        if (get != null && get.HasOverrides)
+                        {
+                            bool implementsInterface = false;
+
+                            foreach (var ov in get.Overrides)
+                            {
+                                MethodDefinition? resolved = null;
+                                try { resolved = ov.Resolve(); } catch { }
+
+                                if (resolved?.DeclaringType?.IsInterface == true)
+                                {
+                                    implementsInterface = true;
+                                    break;
+                                }
+                            }
+
+                            if (implementsInterface)
+                                continue; // interface owns this property
+                        }
+                    }
+
+                    // -----------------------------
+                    // BUILD MAP ENTRY
+                    // -----------------------------
+                    ArrayIntoMap++;
+                    string DeopName = UIntToFixedString(ArrayIntoMap, 8);
+
+                    w.WritePropertyName(DeopName);
+                    w.WriteStartObject();
+                    w.WriteString("Mac", Property.Name);
+                    w.WriteString("FixedDeop", DeopName);
+                    w.WriteEndObject();
+                }
+
                 w.WriteEndObject();
                 w.WritePropertyName("MethodMaps");
                 w.WriteStartObject();

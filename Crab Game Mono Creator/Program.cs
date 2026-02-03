@@ -338,6 +338,16 @@ namespace Crab_Game_Mono_Creator
                     Field.Name  = outname;
                 }
             }
+
+            foreach (var Property in type.Properties)
+            {
+                if (mapField.TryGetValue(Property.Name, out var outname))
+                {
+
+                    Property.Name = outname;
+                }
+            }
+
         }
 
         public struct MethodMapInfo

@@ -88,9 +88,12 @@ namespace Crab_Game_Mono_Creator
                 }
             }
         }
-        static public void FixFieldRefsInIl(AssemblyDefinition asm, JsonDocument crabgamemap)
+        static public void FixFieldRefsInIl(
+            AssemblyDefinition asm,
+            JsonDocument crabgamemap)
         {
             var fieldMapCache = new Dictionary<string, Dictionary<string, string>>();
+            var methodMapCache = new Dictionary<string, Dictionary<string, string>>();
 
             foreach (var t in AsmUtils.GetAllTypeDefinitions(asm.MainModule))
             {
@@ -103,36 +106,101 @@ namespace Crab_Game_Mono_Creator
                     for (int i = 0; i < il.Count; i++)
                     {
                         var ins = il[i];
-                        if (!(ins.Operand is FieldReference fr))
-                            continue;
 
-                        // Build/get mapping table for fr.DeclaringType
-                        if (!TryBuildFieldRenameTable(fr.DeclaringType, crabgamemap, fieldMapCache, out var map))
-                            continue;
-
-                        // Mac DLL -> deopmacdll: operand name is expected to be Mac name
-                        if (map.TryGetValue(fr.Name, out var newName))
+                        // -----------------------------
+                        // FIELD REFERENCES (map-only)
+                        // -----------------------------
+                        if (ins.Operand is FieldReference fr)
                         {
-                            fr.Name = newName;
+                            if (!TryBuildFieldRenameTable(
+                                    fr.DeclaringType,
+                                    crabgamemap,
+                                    fieldMapCache,
+                                    out var fmap))
+                                continue;
+
+                            if (fmap.TryGetValue(fr.Name, out var newName))
+                            {
+                                fr.Name = newName;
+                                continue;
+                            }
+
+                            // mixed-state tolerance (kept from your original)
+                            foreach (var kv in fmap)
+                            {
+                                if (kv.Value == fr.Name)
+                                {
+                                    fr.Name = kv.Value;
+                                    break;
+                                }
+                            }
+
                             continue;
                         }
 
-                        // Fallback: if something already got partially renamed to FixedDeop,
-                        // reverse lookup (slow, but you said that's ok for now).
-                        // This lets you survive mixed states while debugging.
-                        foreach (var kv in map)
+                        // -----------------------------
+                        // PROPERTY ACCESSORS (map-only)
+                        // Handles: get_X, set_X, IFoo.get_X, Ns.IFoo.set_X
+                        // -----------------------------
+                        if (ins.Operand is MethodReference mr0)
                         {
-                            if (kv.Value == fr.Name)
+                            MethodReference mr = mr0;
+
+                            // unwrap GenericInstanceMethod
+                            if (mr is GenericInstanceMethod gim)
+                                mr = gim.ElementMethod;
+
+                            // never rename constructors
+                            if (mr.Name == ".ctor" || mr.Name == ".cctor")
+                                continue;
+
+                            // Find accessor token anywhere in the name (explicit iface safe)
+                            int getIdx = mr.Name.LastIndexOf("get_", StringComparison.Ordinal);
+                            int setIdx = mr.Name.LastIndexOf("set_", StringComparison.Ordinal);
+
+                            bool isGetter = getIdx >= 0;
+                            bool isSetter = setIdx >= 0;
+
+                            if (!isGetter && !isSetter)
+                                continue;
+
+                            // Choose which token we’re using (getter wins if both somehow appear)
+                            int tokIdx;
+                            string tok;
+                            if (isGetter)
                             {
-                                fr.Name = kv.Value; // already correct, keep it
-                                break;
+                                tokIdx = getIdx;
+                                tok = "get_";
                             }
+                            else
+                            {
+                                tokIdx = setIdx;
+                                tok = "set_";
+                            }
+
+                            // Extract prefix and property name
+                            // prefix: "" or "IFoo." or "Ns.IFoo."
+                            string prefix = mr.Name.Substring(0, tokIdx);
+                            string propName = mr.Name.Substring(tokIdx + 4);
+
+                            // Build/get mapping table for this declaring type (map decides everything)
+                            if (!TryBuildMethodRenameTable(
+                                    mr.DeclaringType,
+                                    crabgamemap,
+                                    methodMapCache,
+                                    out var mmap))
+                                continue;
+
+                            // Map keys are property names (not "get_"/"set_")
+                            if (!mmap.TryGetValue(propName, out var newPropName))
+                                continue;
+
+                            mr.Name = prefix + tok + newPropName;
                         }
                     }
                 }
             }
         }
-
         static bool TryBuildFieldRenameTable(
             TypeReference declaringType,
             JsonDocument crabgamemap,
