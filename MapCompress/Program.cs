@@ -30,7 +30,7 @@ namespace MapCompress
 
         static void CompressToJecgm()
         {
-            
+
             string extractDir = AppContext.BaseDirectory;
             string outPath = new DirectoryInfo(extractDir).Name + ".jecgm";
             Console.WriteLine($"Creating {outPath}");

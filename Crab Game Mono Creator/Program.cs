@@ -256,12 +256,6 @@ namespace Crab_Game_Mono_Creator
 
             return output.ToArray();
         }
-
-        //this is a colection of small tag checks to apply stuff
-        //removed everything from it due to me not being able to create makepublic and wrappers
-        static void DoTagsFromMappings(JsonProperty typeJson,TypeDefinition type)
-        {
-        }
         static bool TryGetBool(JsonProperty JsonPro,string Name)
         {
             if(!JsonPro.Value.TryGetProperty(Name,out var BoolVal))
@@ -301,7 +295,6 @@ namespace Crab_Game_Mono_Creator
                             {
                                 string Windows = mappedtype.Value.GetProperty("ObjectMaps").GetProperty(MapToName).GetString()!;
                                 type.Name = Windows;
-                                DoTagsFromMappings(mappedtype, type);
                                 break;
                             }
                         }
@@ -315,8 +308,8 @@ namespace Crab_Game_Mono_Creator
             {
                 if(LocalUtils.TryGetTypeObject(t,macAsm.Name.Name,MapToName,crabgamemap,out var mod))
                 {
-                    FixFields(t, mod);
-                    FixMethods(t, mod,crabgamemap);
+                    RewriteFields(t, mod);
+                    RewriteMethods(t, mod,crabgamemap);
                 }
                 
                 LocalUtils.FixTypeRefs(t, crabgamemap, macAsm);
@@ -326,7 +319,7 @@ namespace Crab_Game_Mono_Creator
             macAsm.Write(Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)));
         }
 
-        public static void FixFields(TypeDefinition type, JsonProperty mappedtype)
+        public static void RewriteFields(TypeDefinition type, JsonProperty mappedtype)
         {
             if(!mappedtype.Value.TryGetProperty("FieldMaps",out var FieldTable))
             {
@@ -347,7 +340,19 @@ namespace Crab_Game_Mono_Creator
             }
         }
 
-        public static void FixMethods(
+        public struct MethodMapInfo
+        {
+            public MethodMapInfo(string newMethodName, string?[] methodNameTable)
+            {
+                NewMethodName = newMethodName;
+                MethodNameTable = methodNameTable;
+            }
+
+            public string NewMethodName { get; }
+            public string?[] MethodNameTable { get; }
+        }
+
+        public static void RewriteMethods(
             TypeDefinition type,
             JsonProperty mappedtype,
             JsonDocument crabgamemap)
@@ -356,12 +361,21 @@ namespace Crab_Game_Mono_Creator
                 return;
 
             // Build rename table once
-            Dictionary<string, string> mapMethod = new();
+            Dictionary<string, MethodMapInfo> mapMethod = new();
             foreach (var m in MethodMaps.EnumerateObject())
             {
-                mapMethod[m.Value.GetProperty("Mac").GetString()!] =
-                    m.Value.GetProperty(MapToName).GetString()!;
+                
+                string?[] MethodNameMap = null;
+                if(m.Value.TryGetProperty("VarMap",out var aaaa))
                 {
+                    MethodNameMap = aaaa.EnumerateArray().Select(e => e.GetString()).ToArray();
+                    Console.WriteLine("aaaaaaa");
+                }
+                
+                MethodMapInfo methodMap = new(m.Value.GetProperty(MapToName).GetString()!,MethodNameMap);
+
+                mapMethod[m.Value.GetProperty("Mac").GetString()!] = methodMap;
+                    ;
             }
 
             var module = type.Module;
@@ -381,15 +395,24 @@ namespace Crab_Game_Mono_Creator
                 if (!mapMethod.TryGetValue(method.Name, out var newName))
                     continue;
 
+                if (newName.MethodNameTable is not null)
+                {
+                    int count = Math.Min(method.Parameters.Count, newName.MethodNameTable.Length);
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        method.Parameters[i].Name = newName.MethodNameTable[i];
+                    }
+                }
                 // Already renamed -> do nothing
-                if (method.Name == newName)
+                if (method.Name == newName.NewMethodName)
                     continue;
 
                 string oldName = method.Name;
 
                 // Rename original method
-                method.Name = newName;
-
+                method.Name = newName.NewMethodName;
+   
                 // Create alias wrapper under old name
                 var wrapper = new MethodDefinition(
                     oldName,
