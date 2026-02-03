@@ -361,6 +361,7 @@ namespace Crab_Game_Mono_Creator
             {
                 mapMethod[m.Value.GetProperty("Mac").GetString()!] =
                     m.Value.GetProperty(MapToName).GetString()!;
+                {
             }
 
             var module = type.Module;
