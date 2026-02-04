@@ -20,6 +20,7 @@ namespace Crab_Game_Mono_Creator
             JsonDocument crabgamemap = null;
             if(args.Contains("--vanilla"))
             {
+                Console.WriteLine("Using --vanilla");
                 IsVanilla = true;
             }
             
@@ -76,7 +77,15 @@ namespace Crab_Game_Mono_Creator
                 Directory.CreateDirectory(OutputPath);
             }
 
-
+            if(!Directory.Exists(Path.Combine(CrabGameMacPath, "Contents")))
+            {
+                Console.WriteLine("Error: you did not set a correct mac dir");
+                Console.WriteLine("Press any key to close");
+                Console.ReadKey();
+                return;
+            }
+            
+            
             //copy crab game files using generated code
             Console.WriteLine($"Copying Windows Crab Game Files");
             CopyCrabGameDir();
@@ -177,6 +186,9 @@ namespace Crab_Game_Mono_Creator
                 File.WriteAllBytes(file, patched);
             }
 
+            Console.WriteLine("Crab game Mono Install Completed");
+            Console.WriteLine("Press any key to close");
+            Console.ReadKey();
         }
 
         struct ReplacePattern
