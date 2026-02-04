@@ -117,3 +117,16 @@ public static class AsmUtils
         }
     }
 }
+
+public static class StringUtils
+{
+    public static bool UsesOnlyAscii(string s)
+    {
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] > 0x7F)
+                return false;
+        }
+        return true;
+    }
+}

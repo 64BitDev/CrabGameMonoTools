@@ -11,13 +11,17 @@ namespace Crab_Game_Mono_Creator
         const string MonoFilesDir = "MonoFiles";
         public static string MapToName = "FixedDeop";
         const string DefaultCGMapDownloadLoc = "https://raw.githubusercontent.com/64BitDev/CrabGameMappings/refs/heads/builds/CrabGameMappings_V2Compatable.jecgm";
-
+        static bool IsVanilla = false;
         static void Main(string[] args)
         {
             Console.WriteLine("=== Crab Game Mono Creator ===");
             Console.WriteLine("Created by 64bitdev");
             ConsoleUtils.SetupConsoleUtils();
             JsonDocument crabgamemap = null;
+            if(args.Contains("--vanilla"))
+            {
+                IsVanilla = true;
+            }
             
                 //see if we have cgmonomap.jecgm
                 if (!File.Exists("cgmonomap.jecgm"))
@@ -314,11 +318,113 @@ namespace Crab_Game_Mono_Creator
                 
                 LocalUtils.FixTypeRefs(t, crabgamemap, macAsm);
             }
-
-
+            if(!IsVanilla)
+            {
+                foreach (var t in TypesInMacMainModule)
+                {
+                    AddPublicFieldWrappers(t);
+                }
+            }
             macAsm.Write(Path.Combine(OutputPath, "Crab Game_Data", "Managed", Path.GetFileName(file)));
         }
+        public static void AddPublicFieldWrappers(TypeDefinition type)
+        {
+            var module = type.Module;
 
+            // avoid duplicate properties
+            HashSet<string> existingProps = new HashSet<string>(
+                type.Properties.Select(p => p.Name),
+                StringComparer.Ordinal);
+
+            foreach (var field in type.Fields)
+            {
+                // skip already-public fields
+                if (field.IsPublic)
+                    continue;
+
+                string propName = field.Name + "_W"; // change suffix if you want
+
+                if (existingProps.Contains(propName))
+                    continue;
+
+                // -----------------------------
+                // GETTER
+                // -----------------------------
+                var getter = new MethodDefinition(
+                    "get_" + propName,
+                    MethodAttributes.Public |
+                    MethodAttributes.SpecialName |
+                    MethodAttributes.HideBySig,
+                    field.FieldType
+                );
+
+                getter.Body = new MethodBody(getter);
+                var ilGet = getter.Body.GetILProcessor();
+
+                if (!field.IsStatic)
+                    ilGet.Append(ilGet.Create(OpCodes.Ldarg_0));
+
+                ilGet.Append(ilGet.Create(
+                    field.IsStatic ? OpCodes.Ldsfld : OpCodes.Ldfld,
+                    field));
+
+                ilGet.Append(ilGet.Create(OpCodes.Ret));
+
+                type.Methods.Add(getter);
+
+                // -----------------------------
+                // SETTER (skip readonly)
+                // -----------------------------
+                MethodDefinition? setter = null;
+
+                if (!field.IsInitOnly)
+                {
+                    setter = new MethodDefinition(
+                        "set_" + propName,
+                        MethodAttributes.Public |
+                        MethodAttributes.SpecialName |
+                        MethodAttributes.HideBySig,
+                        module.TypeSystem.Void
+                    );
+
+                    setter.Parameters.Add(
+                        new ParameterDefinition("value",
+                            ParameterAttributes.None,
+                            field.FieldType));
+
+                    setter.Body = new MethodBody(setter);
+                    var ilSet = setter.Body.GetILProcessor();
+
+                    if (!field.IsStatic)
+                        ilSet.Append(ilSet.Create(OpCodes.Ldarg_0));
+
+                    ilSet.Append(ilSet.Create(OpCodes.Ldarg_1));
+
+                    ilSet.Append(ilSet.Create(
+                        field.IsStatic ? OpCodes.Stsfld : OpCodes.Stfld,
+                        field));
+
+                    ilSet.Append(ilSet.Create(OpCodes.Ret));
+
+                    type.Methods.Add(setter);
+                }
+
+                // -----------------------------
+                // PROPERTY METADATA
+                // -----------------------------
+                var prop = new PropertyDefinition(
+                    propName,
+                    PropertyAttributes.None,
+                    field.FieldType);
+
+                prop.GetMethod = getter;
+                if (setter != null)
+                    prop.SetMethod = setter;
+
+                type.Properties.Add(prop);
+                existingProps.Add(propName);
+            }
+        }
         public static void RewriteFields(TypeDefinition type, JsonProperty mappedtype)
         {
             if(!mappedtype.Value.TryGetProperty("FieldMaps",out var FieldTable))
@@ -392,6 +498,24 @@ namespace Crab_Game_Mono_Creator
 
             foreach (var method in type.Methods.ToArray())
             {
+                if (method.Parameters.Count > 0 && !IsVanilla)
+                {
+                    if (!StringUtils.UsesOnlyAscii(method.Parameters[0].Name))
+                    {
+                        byte argcount = 0;
+                        foreach (var param in method.Parameters)
+                        {
+                            param.Name = $"arg{argcount}";
+                            argcount++;
+                        }
+                    }
+                }
+                if(!IsVanilla)
+                {
+                    method.Attributes =
+    (method.Attributes & ~MethodAttributes.MemberAccessMask)
+    | MethodAttributes.Public;
+                }
                 // Cannot generate bodies for these
                 if (method.IsAbstract || method.IsPInvokeImpl)
                     continue;

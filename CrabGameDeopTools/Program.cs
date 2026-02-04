@@ -160,7 +160,7 @@ namespace CrabGameDeopTools
                 Directory.CreateDirectory(nsDir);
                 ArrayIntoMap++;
                 string FixedDeop = string.Empty;
-                if (!UsesOnlyAscii(winType.Name))
+                if (!StringUtils.UsesOnlyAscii(winType.Name))
                 {
                     FixedDeop = UIntToFixedString(ArrayIntoMap, System.Math.Min(Encoding.UTF8.GetByteCount(winType.Name), 8));
 
@@ -203,7 +203,7 @@ namespace CrabGameDeopTools
                 foreach (var Field in macType.Fields)
                 {
                     
-                    if (!UsesOnlyAscii(Field.Name))
+                    if (!StringUtils.UsesOnlyAscii(Field.Name))
                     {
                         ArrayIntoMap++;
                         string DeopName = UIntToFixedString(ArrayIntoMap, 8);
@@ -216,7 +216,7 @@ namespace CrabGameDeopTools
                 }
                 foreach (var Property in macType.Properties)
                 {
-                    if (UsesOnlyAscii(Property.Name))
+                    if (StringUtils.UsesOnlyAscii(Property.Name))
                         continue;
 
                     // -----------------------------
@@ -265,7 +265,7 @@ namespace CrabGameDeopTools
                 List<string> Names = new();
                 foreach (var Method in macType.Methods)
                 {
-                    if (!UsesOnlyAscii(Method.Name))
+                    if (!StringUtils.UsesOnlyAscii(Method.Name))
                     {
                         ArrayIntoMap++;
 
@@ -352,15 +352,6 @@ namespace CrabGameDeopTools
             }
 
             return new string(buffer);
-        }
-        static bool UsesOnlyAscii(string s)
-        {
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (s[i] > 0x7F)
-                    return false;
-            }
-            return true;
         }
         static void ConvertExtractedCrabGameDeopToAJsonEncodedCrabGameMap()
         {
