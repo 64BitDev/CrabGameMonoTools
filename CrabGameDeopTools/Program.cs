@@ -3,6 +3,7 @@ using LibCpp2IL;
 using Mono.Cecil;
 using System.Text;
 using System.Text.Json;
+using Mono.Cecil.Cil;
 namespace CrabGameDeopTools
 {
     internal class Program
@@ -152,7 +153,6 @@ namespace CrabGameDeopTools
                 }
             }
 
-
             void WriteTypeMap(TypeDefinition macType, TypeDefinition winType)
             {
                 string objNamespace = string.IsNullOrEmpty(macType.Namespace) ? "Global" : macType.Namespace;
@@ -200,20 +200,7 @@ namespace CrabGameDeopTools
 
                 w.WritePropertyName("FieldMaps");
                 w.WriteStartObject();
-                foreach (var Field in macType.Fields)
-                {
-                    
-                    if (!StringUtils.UsesOnlyAscii(Field.Name))
-                    {
-                        ArrayIntoMap++;
-                        string DeopName = UIntToFixedString(ArrayIntoMap, 8);
-                        w.WritePropertyName(DeopName);
-                        w.WriteStartObject();
-                        w.WriteString("Mac",Field.Name);
-                        w.WriteString("FixedDeop",DeopName);
-                        w.WriteEndObject();
-                    }
-                }
+                Dictionary<string, string> FieldToDeopFildMap = new();
                 foreach (var Property in macType.Properties)
                 {
                     if (StringUtils.UsesOnlyAscii(Property.Name))
@@ -251,12 +238,61 @@ namespace CrabGameDeopTools
                     // -----------------------------
                     ArrayIntoMap++;
                     string DeopName = UIntToFixedString(ArrayIntoMap, 8);
-
+                    if (Property.GetMethod != null)
+                    {
+                        if (StringUtils.UsesOnlyAscii(Property.GetMethod.Name))
+                        {
+                            DeopName = Property.GetMethod.Name.Substring("get_".Length);
+                            if (Property.GetMethod.Body == null)
+                            {
+                                
+                            }
+                            else
+                            {
+                                foreach (var ins in Property.GetMethod.Body.Instructions)
+                                {
+                                    if (ins.OpCode == OpCodes.Ldfld || ins.OpCode == OpCodes.Ldsfld)
+                                    {
+                                        if (ins.Operand is FieldReference fr)
+                                        {
+                                            var resolved = fr.Resolve();
+                                            if (resolved != null && resolved.DeclaringType == macType)
+                                            {
+                                                // THIS is the real field name
+                                                FieldToDeopFildMap[resolved.Name] = "_" + Property.GetMethod.Name.Substring("get_".Length);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     w.WritePropertyName(DeopName);
                     w.WriteStartObject();
                     w.WriteString("Mac", Property.Name);
+
                     w.WriteString("FixedDeop", DeopName);
                     w.WriteEndObject();
+                }
+
+                foreach (var Field in macType.Fields)
+                {
+
+                    if (!StringUtils.UsesOnlyAscii(Field.Name))
+                    {
+                        ArrayIntoMap++;
+                        string DeopName = UIntToFixedString(ArrayIntoMap, 8);
+                        if (FieldToDeopFildMap.TryGetValue(Field.Name,out var newname))
+                        {
+                            DeopName = newname;
+                        }
+                        w.WritePropertyName(DeopName);
+                        w.WriteStartObject();
+                        w.WriteString("Mac", Field.Name);
+                        w.WriteString("FixedDeop", DeopName);
+                        w.WriteEndObject();
+                    }
                 }
 
                 w.WriteEndObject();
@@ -294,6 +330,8 @@ namespace CrabGameDeopTools
                 w.WriteEndObject();
                 w.Flush();
             }
+
+
 
             static string MakeSafeFileName(string s)
             {

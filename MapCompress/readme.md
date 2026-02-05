@@ -44,10 +44,12 @@ mapcompress --compress json
 Given a folder structure like this:
 
 ```
-mappings/
-  classes.json
-  methods.json
-  fields.json
+Root
+	/dll1
+	/dll2
+	/dll3
+	cgmapinfo.json
+	mapcompress
 ```
 
 Running:
@@ -113,9 +115,3 @@ It is **not** intended to:
 
 This tool is provided as-is.
 No guarantees are made regarding compatibility with future mapping formats.
-
-
-
-
-+
----
