@@ -55,7 +55,7 @@ namespace MapCompress
                         try
                         {
                             JECGMWritor.WritePropertyName(Path.GetFileNameWithoutExtension(type));
-                            using (var doc = JsonDocument.Parse(File.ReadAllText(type)))
+                            using (var doc = JsonDocument.Parse(File.ReadAllText(type),new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true }))
                             {
                                 doc.RootElement.WriteTo(JECGMWritor);
                             }
