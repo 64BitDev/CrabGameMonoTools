@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CBMapReader\CBMapReader.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="deopmap.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

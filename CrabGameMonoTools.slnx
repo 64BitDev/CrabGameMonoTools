@@ -4,6 +4,7 @@
     <File Path="readme.md" />
     <File Path="THIRD_PARTY_NOTICES.md" />
   </Folder>
+  <Project Path="CBMapReader/CBMapReader.csproj" Id="7151fac9-bf71-45b0-9872-a0cdec5525cf" />
   <Project Path="Crab Game Mono Creator/CrabGameMonoCreator.csproj" Id="9e682670-6993-48ec-9573-86a7f0c776f8" />
   <Project Path="CrabGameDeopTools/CrabGameDeopTools.csproj" />
   <Project Path="MapCompress/MapCompress.csproj" Id="bbe587b5-7b19-48c6-940f-c01c113eb4b8" />

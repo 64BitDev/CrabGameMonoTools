@@ -4,6 +4,7 @@ using Mono.Cecil;
 using System.Text;
 using System.Text.Json;
 using Mono.Cecil.Cil;
+using CBMapReader;
 namespace CrabGameDeopTools
 {
     internal class Program
@@ -19,7 +20,7 @@ namespace CrabGameDeopTools
             {
                 ArrayIntoMap = 0;
 
-                switch (ConsoleUtils.SelectOptionFromArray("Tool:", "Tool", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm", "Add listing to new Map to a crab game map, this is for modifing maps"))
+                switch (ConsoleUtils.SelectOptionFromArray("Tool:", "Tool", "Create a extracted map using a mac build and a windows build", "Convert a extracted map to a Json encoded Crab Game Map also known as .jecbm", "Re export .jecbm"))
                 {
                     case 1:
                         CreateBasicCrabGameMacMonoToCrabGameWinMono();
@@ -27,11 +28,88 @@ namespace CrabGameDeopTools
                     case 2:
                         ConvertExtractedCrabGameDeopToAJsonEncodedCrabGameMap();
                         break;
+                    case 3:
+                        ReexportJecgm();
+                        break;
+                    
                 }
             }
 
         }
 
+        static void ReexportJecgm()
+        {
+            string FilePath = ConsoleUtils.GetSafeStringFromConsole("File Path:", "FilePath");
+            if(ReadCBMap.ReadCompressedJECGMV2(FilePath,out var crabgamemap))
+            {
+                using FileStream fs = File.Create("data.json");
+                using Utf8JsonWriter writer = new Utf8JsonWriter(fs, new JsonWriterOptions
+                {
+                    Indented = false
+                });
+                writer.WriteStartObject();
+                foreach(var dll in crabgamemap.DllMaps)
+                {
+                    writer.WritePropertyName(dll.Key);
+                    writer.WriteStartObject();
+                    foreach(var ns in dll.Value.Namespaces)
+                    {
+                        writer.WritePropertyName(ns.Key);
+                        writer.WriteStartObject();
+                        foreach (var cls in ns.Value.Classes)
+                        {
+                            writer.WritePropertyName(cls.Key);
+                            writer.WriteStartObject();
+
+                            writer.WritePropertyName("ObjectMaps");
+                            writer.WriteStartObject();
+                            foreach(var objectMapName in cls.Value.ObjectMaps)
+                            {
+                                writer.WriteString(objectMapName.Key,objectMapName.Value);
+                            }
+                            writer.WriteEndObject();
+
+                            writer.WritePropertyName("FieldMaps");
+                            writer.WriteStartObject();
+                            foreach (var Vars in cls.Value.Vars)
+                            {
+                                writer.WritePropertyName(Vars.Key);
+                                writer.WriteStartObject();
+                                foreach (var objectMapName in Vars.Value.ObjectMaps)
+                                {
+                                    writer.WriteString(objectMapName.Key, objectMapName.Value);
+                                }
+                                writer.WriteEndObject();
+                            }
+                            writer.WriteEndObject();
+
+
+                            writer.WritePropertyName("MethodMaps");
+                            writer.WriteStartObject();
+                            foreach (var Methods in cls.Value.Methods)
+                            {
+                                writer.WritePropertyName(Methods.Key);
+                                writer.WriteStartObject();
+                                foreach (var objectMapName in Methods.Value.ObjectMaps)
+                                {
+                                    writer.WriteString(objectMapName.Key, objectMapName.Value);
+                                }
+                                writer.WriteEndObject();
+                            }
+                            writer.WriteEndObject();
+
+
+                            writer.WriteEndObject();
+                        }
+                        writer.WriteEndObject();
+                    }
+                    writer.WriteEndObject();
+                }
+                writer.WriteEndObject();
+
+                writer.Flush();
+            }
+        }
         static void CreateBasicCrabGameMacMonoToCrabGameWinMono()
         {
 
