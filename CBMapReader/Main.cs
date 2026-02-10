@@ -1,4 +1,8 @@
-﻿using System.Text.Json;
+﻿using System.Buffers;
+using System.Data;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Text.Json;
 
 namespace CBMapReader
 {
@@ -70,7 +74,7 @@ namespace CBMapReader
         }
     }
 
-    public class WriteCBMap
+
 
     public class CBMap
     {
@@ -137,4 +141,84 @@ namespace CBMapReader
         public Dictionary<string, object> Settings = new();
     }
 
+
+
+    public static class WriteCBMap
+    {
+        static void WriteCompressedJECGMV2(string FilePath,CBMap crabgamemap)
+        {
+            File.WriteAllText(FilePath, WriteCompressedJECGMV2Text(crabgamemap));
+        }
+
+        static string WriteCompressedJECGMV2Text(CBMap crabgamemap)
+        {
+            using MemoryStream fs = new MemoryStream();
+            using Utf8JsonWriter writer = new Utf8JsonWriter(fs, new JsonWriterOptions
+            {
+                Indented = false
+            });
+            writer.WriteStartObject();
+            foreach (var dll in crabgamemap.DllMaps)
+            {
+                writer.WritePropertyName(dll.Key);
+                writer.WriteStartObject();
+                foreach (var ns in dll.Value.Namespaces)
+                {
+                    writer.WritePropertyName(ns.Key);
+                    writer.WriteStartObject();
+                    foreach (var cls in ns.Value.Classes)
+                    {
+                        writer.WritePropertyName(cls.Key);
+                        writer.WriteStartObject();
+
+                        writer.WritePropertyName("ObjectMaps");
+                        writer.WriteStartObject();
+                        foreach (var objectMapName in cls.Value.ObjectMaps)
+                        {
+                            writer.WriteString(objectMapName.Key, objectMapName.Value);
+                        }
+                        writer.WriteEndObject();
+
+                        writer.WritePropertyName("FieldMaps");
+                        writer.WriteStartObject();
+                        foreach (var Vars in cls.Value.Vars)
+                        {
+                            writer.WritePropertyName(Vars.Key);
+                            writer.WriteStartObject();
+                            foreach (var objectMapName in Vars.Value.ObjectMaps)
+                            {
+                                writer.WriteString(objectMapName.Key, objectMapName.Value);
+                            }
+                            writer.WriteEndObject();
+                        }
+                        writer.WriteEndObject();
+
+
+                        writer.WritePropertyName("MethodMaps");
+                        writer.WriteStartObject();
+                        foreach (var Methods in cls.Value.Methods)
+                        {
+                            writer.WritePropertyName(Methods.Key);
+                            writer.WriteStartObject();
+                            foreach (var objectMapName in Methods.Value.ObjectMaps)
+                            {
+                                writer.WriteString(objectMapName.Key, objectMapName.Value);
+                            }
+                            writer.WriteEndObject();
+                        }
+                        writer.WriteEndObject();
+
+
+                        writer.WriteEndObject();
+                    }
+                    writer.WriteEndObject();
+                }
+                writer.WriteEndObject();
+            }
+            writer.WriteEndObject();
+
+            writer.Flush();
+            return Encoding.UTF8.GetString(fs.ToArray());
+        }
+    }
 }
